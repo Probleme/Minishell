@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:04:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/05 13:59:44 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:43:25 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ t_exec	*init_execution(t_env *env, char *command)
 	if (!exec)
 		return (NULL);
 	exec->command = ft_split_cmd(command);
+	int i = 0;
+	while (exec->command[i])
+	{
+		printf("command[%d] = %s\n", i, exec->command[i]);
+		i++;
+	}
 	free(command);
 	if (!exec->command)
 	{

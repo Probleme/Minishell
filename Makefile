@@ -6,7 +6,7 @@
 #    By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/16 14:44:39 by hed-dyb           #+#    #+#              #
-#    Updated: 2023/08/06 16:39:13 by ataouaf          ###   ########.fr        #
+#    Updated: 2023/08/07 13:34:36 by ataouaf          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ CC = cc
 RM = rm -rf
 FLAGS =  -Wall -Werror -Wextra #-g -fsanitize=address,undefined
 
-READLINE_PATH = /homebrew/Cellar/readline/8.2.1/
-LDFLAG = -L/Users/ataouaf/.brew/opt/readline/lib
-CPPFLAG = -I/Users/ataouaf/.brew/opt/readline/include
+# READLINE_PATH = /homebrew/Cellar/readline/8.2.1/
+# LDFLAG = -L/Users/ataouaf/homebrew/opt/readline/lib
+# CPPFLAG = -I/Users/ataouaf/homebrew/opt/readline/include
 
 OBJECTS = ./obj
 EXEC = $(addprefix execution/, check_tokens.c ft_utils.c exec_cmd.c exec.c execute.c utils.c command_init.c builtins.c)
@@ -39,10 +39,10 @@ all : $(NAME)
 
 $(OBJECTS)/%.o : %.c $(LIBRARY)
 	@mkdir -p $(dir $@)
-	$(CC) $(FLAGS) $(CPPFLAG) -c $< -o $@
+	$(CC) $(FLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) $(LDFLAG) -lreadline $(OBJ)  -o $(NAME)
+	$(CC) $(FLAGS) $(LDFLAGS) -lreadline $(OBJ)  -o $(NAME)
 	
 clean :
 	$(RM) $(OBJECTS)
