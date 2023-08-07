@@ -46,10 +46,9 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (*command)
 			add_history(command);
-		if (parse_line(command, &token_lst))
+		if(parse_line(command, &token_lst) == 1)
 			start_exec(&env_lst, command);
-		ft_free_token(token_lst);
-		token_lst = NULL;
+
 		command = readline(RED "minishell$ " NC);
 	}
 	rl_clear_history();
