@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hed-dyb <hed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:54:34 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/07/20 18:00:07 by hed-dyb          ###   ########.fr       */
+/*   Updated: 2023/08/06 18:52:38 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,14 @@ int	ft_parsing(t_token *t)
 		{
 			if (ft_redir_case(t) == 0)
 				return (0);
+<<<<<<< HEAD
 			if (t->type == _pipe && t->next->type == _pipe)
 				return (ft_error_2(" syntax error near unexpected token `|'\n"), 
 					0);
+=======
+			if(t->type == _pipe && t->next->type == _pipe)// pipe then pipe in  the end
+				return (ft_error_2(" syntax error near unexpected token `|'\n"), 0);
+>>>>>>> 4572c84605d632d10da63ad291d36cd2364921c9
 		}
 		t = t->next;
 	}

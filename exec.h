@@ -6,19 +6,19 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/06 18:22:42 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/07 13:15:02 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <dirent.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <signal.h>
 #include <string.h>
 #include <sys/errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <limits.h>
 
 #define NC "\033[0m"
 #define CYAN "\033[1;36m"
@@ -31,8 +31,7 @@ extern int	g_exit_status;
 #define HD_EOF \
 "minishell: warning: here-document delimited by end-of-file \
 (wanted `%s')\n"
-#define E_OPERATOR_PARSE \
-"minishell: not a valid identifier\n"
+#define E_OPERATOR_PARSE "minishell: not a valid identifier\n"
 
 typedef enum e_tokens
 {
@@ -151,7 +150,5 @@ void		heredoc_close(int arr_heredoc[16][2]);
 void		handle_signal(int sig);
 void		handle_redirection(t_exec *exec, int nbr_command);
 
-
 // main.c
 t_env		*ft_get_env(char **envp);
-
