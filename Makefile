@@ -6,7 +6,7 @@
 #    By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/16 14:44:39 by hed-dyb           #+#    #+#              #
-#    Updated: 2023/08/06 16:39:13 by ataouaf          ###   ########.fr        #
+#    Updated: 2023/08/06 21:15:35 by hed-dyb          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,11 @@ LIBRARY = minishell.h exec.h
 NAME = minishell
 CC = cc 
 RM = rm -rf
-FLAGS =  -Wall -Werror -Wextra #-g -fsanitize=address,undefined
+FLAGS =  -Wall -Werror -Wextra -g -fsanitize=address,undefined
 
 READLINE_PATH = /homebrew/Cellar/readline/8.2.1/
-LDFLAG = -L/Users/ataouaf/.brew/opt/readline/lib
-CPPFLAG = -I/Users/ataouaf/.brew/opt/readline/include
+LDFLAG = -L/Users/hed-dyb/.brew/opt/readline/lib
+CPPFLAG = -I/Users/hed-dyb/.brew/opt/readline/include
 
 OBJECTS = ./obj
 EXEC = $(addprefix execution/, check_tokens.c ft_utils.c exec_cmd.c exec.c execute.c utils.c command_init.c builtins.c)
