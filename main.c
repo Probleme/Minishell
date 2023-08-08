@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:51:40 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/06 18:23:41 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 11:21:57 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	rl_clear_history();
 	free_env_list(&env_lst);
-	dprintf(1, "exit\n");
+	ft_error_msg("exit\n", STDOUT_FILENO);
 	return (g_exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:16:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/06 17:47:52 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 12:24:21 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static void	read_from_stdin(char *limit, int fd)
 	line = readline("heredoc > ");
 	while (line && ft_strcmp(line, limit))
 	{
-		dprintf(fd, "%s\n", line);
+		ft_printf(NULL, NULL, line, fd);
 		free(line);
 		line = readline("heredoc > ");
 	}
 	if (!state_stdinput())
-		dprintf(1, "\n");
+		ft_error_msg("\n", STDERR_FILENO);
 	else if (!line)
-		dprintf(2, HD_EOF, limit);
+		ft_error_msg("\n", STDERR_FILENO);
 	free(line);
 	handle_signal(DEFAULT_SIGNAL);
 	return ;
@@ -90,7 +90,7 @@ static void	open_heredoc(int arr_herd[16][2], char ***commands, int **tokens)
 
 int	init_heredoc(int arr_herd[16][2], char ***commands, int **tokens)
 {
-	int	stdin_var = -1;
+	int	stdin_var;
 
 	stdin_var = dup(STDIN_FILENO);
 	open_heredoc(arr_herd, commands, tokens);

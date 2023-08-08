@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:31:48 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:34:06 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 12:10:43 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,25 @@ int	ft_isalnum(int c)
 		|| (c >= 'A' && c <= 'Z'));
 }
 
-static int	ft_parse_env_name(const char *command, int *flag)
+void	ft_printf(char *str1, char *str2, char *cmd, int fd)
+{
+	if (str1)
+		write(fd, str1, ft_strlen(str1));
+	if (cmd)
+		write(fd, cmd, ft_strlen(cmd));
+	if (str2)
+		write(fd, str2, ft_strlen(str2));
+	write(fd, "\n", 1);
+}
+
+static int	ft_parse_env_name(char *command, int *flag)
 {
 	int	i;
 
 	if (!ft_isalpha(command[0]) && command[0] != '_')
 	{
 		*flag = 1;
-		dprintf(2, "minishell: unset: `%s': not a valid identifier\n", command);
+		ft_printf("minishell: unset: `", "': not a valid identifier", command, 2);
 		return (0);
 	}
 	i = 0;
@@ -34,8 +45,7 @@ static int	ft_parse_env_name(const char *command, int *flag)
 		if (!ft_isalnum(command[i]) && command[i] != '_')
 		{
 			*flag = 1;
-			dprintf(2,
-				"minishell: unset: `%s': not a valid identifier\n", command);
+			ft_printf("minishell: unset: `", "': not a valid identifier", command, 2);
 			return (0);
 		}
 		i++;

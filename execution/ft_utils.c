@@ -6,37 +6,20 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:50:42 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:34:29 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 10:48:11 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	while ((*s1 || *s2) && n)
-	{
-		if (*s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-		n--;
-	}
-	return (0);
-}
-
-char	*ft_strcpy(char *s1, char *s2)
+void	close_unused_hd(int heredoc_fd[16][2], int cmd_nb)
 {
 	int	i;
 
-	i = 0;
-	while (s2[i])
-	{
-		s1[i] = s2[i];
-		i++;
-	}
-	s1[i] = s2[i];
-	return (s1);
+	i = -1;
+	while (++i < 16)
+		if (heredoc_fd[i][0] == cmd_nb)
+			close(heredoc_fd[i][1]);
 }
 
 int	ft_strlcpy(char *dst, char *src, size_t size)

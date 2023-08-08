@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 23:06:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/06 18:20:42 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 12:13:07 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,14 @@ static void	ft_exit_more(char **command, t_exec *exec)
 {
 	if (ft_is_digit(command[1]))
 	{
-		dprintf(1, "exit\n");
-		dprintf(2, "minishell: exit: too many arguments\n");
+		ft_error_msg("exit\n", STDOUT_FILENO);
+		ft_error_msg("minishell: exit: too many arguments\n", STDERR_FILENO);
 		g_exit_status = 1;
 	}
 	else
 	{
-		dprintf(1, "exit\n");
-		dprintf(2,
-			"minishell: exit: %s: numeric argument required\n", command[1]);
+		ft_error_msg("exit\n", STDOUT_FILENO);
+		ft_printf("minishell: exit: ", "too many arguments", command[1], STDERR_FILENO);
 		free_env_list(exec->env);
 		free_exec(exec, NULL, command);
 		exit (2);
@@ -58,7 +57,7 @@ static void	ft_exit_two(char **command, t_exec *exec)
 
 	if (ft_is_digit(command[1]))
 	{
-		dprintf(1, "exit\n");
+		ft_error_msg("exit\n", STDOUT_FILENO);
 		free_env_list(exec->env);
 		stat = ft_atoll(command[1]);
 		free_exec(exec, NULL, command);
@@ -66,9 +65,8 @@ static void	ft_exit_two(char **command, t_exec *exec)
 	}
 	else
 	{
-		dprintf(1, "exit\n");
-		dprintf(2,
-			"minishell: exit: %s: numeric argument required\n", command[1]);
+		ft_error_msg("exit\n", STDOUT_FILENO);
+		ft_printf("minishell: exit: ", "numeric argument required", NULL, STDERR_FILENO);
 		free_env_list(exec->env);
 		free_exec(exec, NULL, command);
 		exit (255);
@@ -79,7 +77,7 @@ void	ft_exit(char **command, t_exec *exec)
 {
 	if (ft_sizeof_array(command) == 1)
 	{
-		dprintf(1, "exit\n");
+		ft_error_msg("exit\n", STDOUT_FILENO);
 		free_env_list(exec->env);
 		free_exec(exec, NULL, command);
 		exit (g_exit_status);

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:52:06 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/06 18:05:22 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 11:15:31 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_create_tokens(t_token **t, char *command);
 int		ft_special_char(t_token *node);
 void	ft_unnecessary_spaces(t_token **t);
 int		ft_is_wrd_qot(t_token *temp);
-void	ft_error_2(char *msg);
+void	ft_error_msg(char *msg, int fd);
 int		ft_is_a_redirection(t_token *node);
 int		ft_check_close(t_token *t);
 int		ft_parsing(t_token *t);

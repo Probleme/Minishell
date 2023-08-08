@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 23:44:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:15:36 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 14:17:22 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,20 @@ static void	execute_echo_withflag(char **array_str, int size)
 	return ;
 }
 
-void	ft_echo(char **array_str)
+void	ft_echo(char **command)
 {
 	int	size;
 
 	g_exit_status = 0;
-	size = ft_sizeof_array(array_str);
+	size = ft_sizeof_array(command);
 	if (size == 1)
 	{
 		printf("\n");
 		return ;
 	}
-	if (array_str[1][0] != '-' || (array_str[1][0] == '-'
-			&& ft_strlen(array_str[1]) == 1) || !contain_only_n(array_str[1]))
-		execute_echo_noflag(array_str);
-	else if (contain_only_n(array_str[1]))
-		execute_echo_withflag(array_str, size);
+	if (command[1][0] != '-' || (command[1][0] == '-'
+			&& ft_strlen(command[1]) == 1) || !contain_only_n(command[1]))
+		execute_echo_noflag(command);
+	else if (contain_only_n(command[1]))
+		execute_echo_withflag(command, size);
 }

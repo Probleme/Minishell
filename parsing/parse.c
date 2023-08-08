@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:41:20 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/06 18:04:49 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 11:20:09 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void	ft_free_token(t_token *t)
 	}
 }
 
-void	ft_error_2(char *msg)
+void	ft_error_msg(char *msg, int fd)
 {
 	int	i;
 
 	i = -1;
 	while (msg[++i])
-		write(STDERR_FILENO, &msg[i], 1);
+		write(fd, &msg[i], 1);
 	g_exit_status = 2;
 }
 

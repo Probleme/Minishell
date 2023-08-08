@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:31:26 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:34:03 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 12:02:44 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,27 @@ static void	ft_begin_export(char *command, t_env **env)
 		ft_export_create_var(command, env);
 }
 
-static int	ft_parse_env(const char *command, int *flag)
+static int	ft_parse_env(char *command, int *flag)
 {
 	int	i;
 
 	if (!ft_isalpha(command[0]) && command[0] != '_')
 	{
 		*flag = 1;
-		dprintf(2, "minishell: export: `%s': not a valid identifier\n",
-			command);
+		ft_printf("minishell: export: `", "': not a valid identifier\n", command, 2);
 		return (0);
 	}
-	i = 0;
-	while (command[i])
+	i = -1;
+	while (command[++i])
 	{
 		if (command[i] == '=' || (command[i] == '+' && command[i + 1] == '='))
 			break ;
 		if (!ft_isalnum(command[i]) && command[i] != '_')
 		{
 			*flag = 1;
-			dprintf(2, "minishell: export: `%s': not a valid identifier\n",
-				command);
+			ft_printf("minishell: export: `", "': not a valid identifier\n", command, 2);
 			return (0);
 		}
-		i++;
 	}
 	return (1);
 }

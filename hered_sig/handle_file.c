@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 12:00:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/03 12:09:48 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/08 11:16:32 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	open_out_file(char *name, int mode)
 	fd = open(name, O_WRONLY | O_CREAT | open_mode, 0644);
 	if (fd == -1)
 	{
-		dprintf(2, "minishell: ");
+		ft_error_msg("minishell: ", STDERR_FILENO);
 		perror(name);
 	}
 	return (fd);
@@ -38,26 +38,14 @@ static int	open_in_file(char *name, int mode)
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
 	{
-		dprintf(2, "minishell: ");
+		ft_error_msg("minishell: ", STDERR_FILENO);
 		perror(name);
 	}
 	return (fd);
 }
 
-static void	close_unused_hd(int heredoc_fd[16][2], int cmd_nb)
+static void	get_file(t_exec *exec, int nbr_command, int pipe_fd[2][2], int fd[2], int flag)
 {
-	int	i;
-
-	i = -1;
-	while (++i < 16)
-		if (heredoc_fd[i][0] == cmd_nb)
-			close(heredoc_fd[i][1]);
-}
-
-static void	get_file(t_exec *exec, int nbr_command, int pipe_fd[2][2], int flag)
-{
-	int	fd[2];
-
 	fd[0] = pipe_fd[(nbr_command + 1) % 2][0];
 	fd[1] = pipe_fd[nbr_command % 2][1];
 	while (exec->cmds[nbr_command][++flag] && fd[0] != -1 && fd[1] != -1)
@@ -84,28 +72,42 @@ static void	get_file(t_exec *exec, int nbr_command, int pipe_fd[2][2], int flag)
 	pipe_fd[nbr_command % 2][1] = fd[1];
 }
 
+static void	check_for_redirection(t_exec *exec, int nbr_command, int pipe_fd[2][2])
+{
+	int	i;
+	int fd[2];
+
+	i = -1;
+	while (exec->tokens[nbr_command][++i])
+		if (exec->tokens[nbr_command][i] == FILE_INPUT
+			|| exec->tokens[nbr_command][i] == FILE_OUTPUT
+			|| exec->tokens[nbr_command][i] == FILE_APP)
+			get_file(exec, nbr_command, pipe_fd, fd, -1);
+	return ;
+}
+
 void	handle_redirection(t_exec *exec, int nbr_command)
 {
 	if (exec->count_cmd == 1 && nbr_command == 0)
 	{
 		exec->pipe_fd[1][0] = dup(STDIN_FILENO);
 		exec->pipe_fd[0][1] = dup(STDOUT_FILENO);
-		get_file(exec, nbr_command, exec->pipe_fd, -1);
+		check_for_redirection(exec, nbr_command, exec->pipe_fd);
 		return ;
 	}
 	if (nbr_command == 0)
 	{
 		pipe(exec->pipe_fd[0]);
 		exec->pipe_fd[1][0] = dup(STDIN_FILENO);
-		get_file(exec, nbr_command, exec->pipe_fd, -1);
+		check_for_redirection(exec, nbr_command, exec->pipe_fd);
 		return ;
 	}
 	if (nbr_command == exec->count_cmd - 1)
 	{
 		exec->pipe_fd[nbr_command % 2][1] = dup(STDOUT_FILENO);
-		get_file(exec, nbr_command, exec->pipe_fd, -1);
+		check_for_redirection(exec, nbr_command, exec->pipe_fd);
 		return ;
 	}
 	pipe(exec->pipe_fd[nbr_command % 2]);
-	get_file(exec, nbr_command, exec->pipe_fd, -1);
+	check_for_redirection(exec, nbr_command, exec->pipe_fd);
 }
