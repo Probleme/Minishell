@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:51:40 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/08 11:21:57 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 15:45:50 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ int	main(int argc, char **argv, char **env)
 			add_history(command);
 		if(parse_line(command, &token_lst) == 1)
 			start_exec(&env_lst, command);
-
 		command = readline(RED "minishell$ " NC);
+	}
+	if (command)
+	{
+		free(command);
+		command = NULL;
 	}
 	rl_clear_history();
 	free_env_list(&env_lst);

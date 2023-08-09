@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 11:54:34 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/08 11:19:35 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 15:53:32 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_parsing(t_token *t)
 		{
 			if (ft_redir_case(t) == 0)
 				return (0);
-			if(t->type == _pipe && t->next->type == _pipe && t->next->next == NULL)// pipe then pipe in  the end
+			if(t->type == _pipe && t->next->type == _pipe && t->next->next == NULL)
 				return (ft_error_msg("minishell: syntax error near unexpected token `|'", 2), 0);
 		}
 		t = t->next;
