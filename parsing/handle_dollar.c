@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:35:30 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 12:58:29 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static char	*ft_var_replace(char *token, int *i, t_env *env)
 	return (token);
 }
 
-static char	*apply_expansion_bis(char *token, int *i, int state, t_env *env)
+static char	*apply_expansion_bis(char *token, int *i, int quote, t_env *env)
 {
-	if ((token[*i] == '$' && state != 1 && ft_isalpha(token[*i + 1]))
-		|| (token[*i] == '$' && state != 1 && token[*i + 1] == '_'))
+	if ((token[*i] == '$' && quote != 1 && ft_isalpha(token[*i + 1]))
+		|| (token[*i] == '$' && quote != 1 && token[*i + 1] == '_'))
 	{
 		token = ft_var_replace(token, i, env);
 		if (token[*i] == '$' || token[*i] == '"' || token[*i] == '\'')
@@ -58,7 +58,7 @@ static char	*apply_expansion_bis(char *token, int *i, int state, t_env *env)
 		else if (token[*i] == 0)
 			*i = -2;
 	}
-	else if (token[*i] == '$' && state != 1)
+	else if (token[*i] == '$' && quote != 1)
 	{
 		token = ft_replace_wrongname(token, i);
 		if (token[*i] == '$' || token[*i] == '"' || token[*i] == '\'')
@@ -72,14 +72,14 @@ static char	*apply_expansion_bis(char *token, int *i, int state, t_env *env)
 static char	*apply_expansion(char *token, t_env *env)
 {
 	int	i;
-	int	state;
+	int	quote;
 
 	i = 0;
-	state = 0;
+	quote = 0;
 	while (i != -1 && token[i])
 	{
-		ft_check_state(&state, token[i]);
-		if (token[i] == '$' && state != 1 && token[i + 1] == '?')
+		ft_check_state(&quote, token[i]);
+		if (token[i] == '$' && quote != 1 && token[i + 1] == '?')
 		{
 			token = ft_replace_exitcode(token, &i);
 			if (token[i] == '$' || token[i] == '"' || token[i] == '\'')
@@ -87,12 +87,12 @@ static char	*apply_expansion(char *token, t_env *env)
 			else if (token[i] == 0)
 				break ;
 		}
-		else if (token[i] == '$' && state != 1 && (token[i + 1] == ' '
+		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
 				+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
 			;
 		else
-			token = apply_expansion_bis(token, &i, state, env);
+			token = apply_expansion_bis(token, &i, quote, env);
 		i++;
 	}
 	return (token);
@@ -109,12 +109,27 @@ void	handle_dollar(char **command, int *tokens, t_env *env)
 		if (ft_strchr(command[i], '$'))
 			command[i] = apply_expansion(command[i], env);
 		j = 0;
-		while (command[i][j])
-			if (command[i][j] != ' ' || !(command[i][j] >= 9
-					&& command[i][j] <= 13))
-				break ;
-		if (!command[i][j])
-			tokens[i] = EMPTY;
+		if (tokens)
+		{	
+			while (command[i][j])
+				if (command[i][j] != ' ' || !(command[i][j] >= 9
+						&& command[i][j] <= 13))
+					break ;
+			if (!command[i][j])
+				tokens[i] = EMPTY;
+		}
 		i++;
 	}
 }
+// void	ft_expand(char **command, t_env *env)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (command[i])
+// 	{
+// 		if (ft_strchr(command[i], '$'))
+// 			command[i] = apply_expansion(command[i], env);
+// 		i++;
+// 	}
+// }

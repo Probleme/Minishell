@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 12:44:53 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 13:00:31 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_exec
 {
 	char	***cmds;
 	char	**command;
+	char	**herd_cmd;
 	int		**tokens;
 	int		*old_token;
 	int		count_cmd;
@@ -131,9 +132,9 @@ void		close_fd(int fd);
 void		close_all_fd(int pipe_fd[2][2], int cmd_nb);
 
 // heredoc and signal
-
+// void	ft_expand(char **command, t_env *env);
 int			check_use_heredoc(int fd, t_exec *exec, int nbr_cmd);
-int			init_heredoc(int arr_herd[16][2], char ***commands, int **tokens);
+int			init_heredoc(int arr_herd[16][2], char ***commands, int **tokens, t_exec *exec);
 int			state_stdinput(void);
 void		heredoc_close(int arr_heredoc[16][2]);
 void		handle_signal(int sig);

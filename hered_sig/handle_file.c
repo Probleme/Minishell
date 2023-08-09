@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 12:00:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 11:16:32 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 10:00:52 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,42 +72,30 @@ static void	get_file(t_exec *exec, int nbr_command, int pipe_fd[2][2], int fd[2]
 	pipe_fd[nbr_command % 2][1] = fd[1];
 }
 
-static void	check_for_redirection(t_exec *exec, int nbr_command, int pipe_fd[2][2])
-{
-	int	i;
-	int fd[2];
-
-	i = -1;
-	while (exec->tokens[nbr_command][++i])
-		if (exec->tokens[nbr_command][i] == FILE_INPUT
-			|| exec->tokens[nbr_command][i] == FILE_OUTPUT
-			|| exec->tokens[nbr_command][i] == FILE_APP)
-			get_file(exec, nbr_command, pipe_fd, fd, -1);
-	return ;
-}
-
 void	handle_redirection(t_exec *exec, int nbr_command)
 {
+	int	fd[2];
+
 	if (exec->count_cmd == 1 && nbr_command == 0)
 	{
 		exec->pipe_fd[1][0] = dup(STDIN_FILENO);
 		exec->pipe_fd[0][1] = dup(STDOUT_FILENO);
-		check_for_redirection(exec, nbr_command, exec->pipe_fd);
+		get_file(exec, nbr_command, exec->pipe_fd, fd, -1);
 		return ;
 	}
 	if (nbr_command == 0)
 	{
 		pipe(exec->pipe_fd[0]);
 		exec->pipe_fd[1][0] = dup(STDIN_FILENO);
-		check_for_redirection(exec, nbr_command, exec->pipe_fd);
+		get_file(exec, nbr_command, exec->pipe_fd, fd, -1);
 		return ;
 	}
 	if (nbr_command == exec->count_cmd - 1)
 	{
 		exec->pipe_fd[nbr_command % 2][1] = dup(STDOUT_FILENO);
-		check_for_redirection(exec, nbr_command, exec->pipe_fd);
+		get_file(exec, nbr_command, exec->pipe_fd, fd, -1);
 		return ;
 	}
 	pipe(exec->pipe_fd[nbr_command % 2]);
-	check_for_redirection(exec, nbr_command, exec->pipe_fd);
+	get_file(exec, nbr_command, exec->pipe_fd, fd, -1);
 }

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 09:47:22 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 13:00:39 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	start_exec(t_env **env, char *command)
 	exec->pid = malloc(sizeof(int) * (exec->count_cmd + 1));
 	if (!exec->pid)
 		return ;
-	if (init_heredoc(exec->heredoc_fd, exec->cmds, exec->tokens))
+	if (init_heredoc(exec->heredoc_fd, exec->cmds, exec->tokens, exec))
 		g_exit_status = 130;
 	else if (exec->pid)
 	{
