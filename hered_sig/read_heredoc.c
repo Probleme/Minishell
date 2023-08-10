@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:16:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 15:30:35 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/10 13:07:50 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,49 +24,42 @@ static void	herd_arr_init(int arr_herd[16][2])
 	}
 }
 
-
-static void	read_from_stdin(char *limit, int fd, t_exec *exec, char *line, int i)
+static void read_from_stdin(char *limit, int fd, t_exec *exec)
 {
-	exec->herd_cmd = ft_split_cmd(line);
-	handle_dollar(exec->herd_cmd, NULL, *exec->env);
-	delete_quotes(exec->herd_cmd);
-	while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
-	{
-		ft_printf(NULL, NULL, exec->herd_cmd[i], fd);
+    char *line;
+    int i;
+
+    handle_signal(HEREDOC_SIGNAL);
+    while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
+    {
+        exec->herd_cmd = ft_split_cmd(line);
+        handle_dollar(exec->herd_cmd, NULL, *exec->env);
+        i = -1;
+        while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
+        {
+            ft_printf(NULL, NULL, line, fd);
+            free(exec->herd_cmd[i]);
+        }
+        free(exec->herd_cmd);
 		free(line);
-		line = readline("heredoc > ");
-		if (!line)
-			break ;
-		exec->herd_cmd = ft_split_cmd(line);
-		handle_dollar(exec->herd_cmd, NULL, *exec->env);
-		delete_quotes(exec->herd_cmd);
-		i = -1;
-	}
-	if (!state_stdinput())
-		ft_error_msg("\n", STDOUT_FILENO);
-	free(line);
-	handle_signal(DEFAULT_SIGNAL);
-	return ;
+    }
+	if (line != NULL)
+		free(line); 
+    if (!state_stdinput())
+        ft_error_msg("\n", STDOUT_FILENO);
+    handle_signal(DEFAULT_SIGNAL);
 }
 
-static int	heredoc_read(char *limit,t_exec *exec)
+static int	heredoc_read(char *limit, t_exec *exec)
 {
 	int	fd[2];
-	char *line;
 
 	if (pipe(fd) == -1)
 	{
 		perror("pipe");
 		return (-1);
 	}
-	handle_signal(HEREDOC_SIGNAL);
-	line = readline("heredoc > ");
-	if (!line)
-	{
-		ft_error_msg("\n", STDERR_FILENO);
-		return (-1);
-	}
-	read_from_stdin(limit, fd[1], exec, line, -1);
+	read_from_stdin(limit, fd[1], exec);
 	close(fd[1]);
 	return (fd[0]);
 }

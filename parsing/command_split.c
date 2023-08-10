@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 23:23:19 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/07/30 15:10:19 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/10 13:05:30 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	lenght_next_cmd(char *command)
 		if (ft_is_wtspc(command[i]) && !state)
 			break ;
 	}
+	state = 0;
 	return (i);
 }
 
@@ -59,6 +60,7 @@ static int	cmd_count(char *command)
 				nb++;
 		}
 	}
+	state = 0;
 	return (nb + (state == 0));
 }
 

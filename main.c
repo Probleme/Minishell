@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:51:40 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/09 15:45:50 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/10 13:11:06 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,33 @@ void free_env_list(t_env **head)
 	*head = NULL;
 }
 
-int	main(int argc, char **argv, char **env)
+char *read_command()
 {
-	t_token *token_lst = NULL;
-	t_env *env_lst;
-	char *command;
-	(void)argv;
+    char *command = readline(RED "minishell$ " NC);
+    if (command && *command)
+        add_history(command);
+    return command;
+}
 
-	g_exit_status = 0;
-	if (argc != 1)
-		exit(0);
-	env_lst = ft_get_env(env);
-	handle_signal(DEFAULT_SIGNAL);
-	command = readline(RED "minishell$ " NC);
-	while (command)
-	{
-		if (*command)
-			add_history(command);
-		if(parse_line(command, &token_lst) == 1)
-			start_exec(&env_lst, command);
-		command = readline(RED "minishell$ " NC);
-	}
-	if (command)
-	{
-		free(command);
-		command = NULL;
-	}
-	rl_clear_history();
-	free_env_list(&env_lst);
-	ft_error_msg("exit\n", STDOUT_FILENO);
-	return (g_exit_status);
+int main(int argc, char **argv, char **env)
+{
+    t_token *token_lst = NULL;
+    t_env *env_lst;
+    char *command;
+    (void)argv;
+
+    g_exit_status = 0;
+    if (argc != 1)
+        exit(0);
+    env_lst = ft_get_env(env);
+    handle_signal(DEFAULT_SIGNAL);
+    while ((command = read_command()))
+        if (*command && parse_line(command, &token_lst) == 1)
+            start_exec(&env_lst, command);
+		else
+			free(command);
+    rl_clear_history();
+    free_env_list(&env_lst);
+    ft_error_msg("exit\n", STDOUT_FILENO);
+    return g_exit_status;
 }

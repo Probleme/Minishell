@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 15:54:37 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/09 17:16:39 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		ft_export(t_env **env, char **args);
 void		ft_echo(char **array_str);
 
 //** utils
-
+int	check_empty_line(char *line);
 void		*ft_calloc(size_t count, size_t size);
 int			ft_strlcpy(char *dst, char *src, size_t size);
 char		*ft_strchr(const char *s, int c);
