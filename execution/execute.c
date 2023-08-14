@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:04:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/10 13:40:34 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/12 14:28:39 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_exec	*init_execution(t_env *env, char *command)
 	exec = malloc(sizeof(t_exec));
 	if (!exec)
 		return (NULL);
-	exec->command = ft_split_cmd(command);
+	exec->command = ft_split_cmd(command, -1);
 	free(command);
 	if (!exec->command)
 	{
@@ -37,7 +37,7 @@ t_exec	*init_execution(t_env *env, char *command)
 		return (NULL);
 	}
 	handle_dollar(exec->command, exec->old_token, env);
-	delete_quotes(exec->command);
+	delete_quotes(exec->command, exec);
 	return (exec);
 }
 
@@ -93,30 +93,30 @@ char	***ft_fill_commands(t_exec *exec, char **command)
 
 int	**count_tokens(t_exec *exec, int flag)
 {
-	int	**arr_token;
+	int	**tokens;
 	int	i;
 	int	j;
 
-	arr_token = malloc(sizeof(int *) * (exec->count_cmd + 1));
-	if (!arr_token)
+	tokens = malloc(sizeof(int *) * (exec->count_cmd + 1));
+	if (!tokens)
 		return (NULL);
-	arr_token[exec->count_cmd] = NULL;
+	tokens[exec->count_cmd] = NULL;
 	i = -1;
 	while (++i < exec->count_cmd)
 	{
-		arr_token[i] = malloc(sizeof(int) * (ft_sizeof_array(exec->cmds[i])
-					+ 1));
+		tokens[i] = malloc(sizeof(int) * (ft_sizeof_array(exec->cmds[i]) + 1));
+		if (!tokens[i])
+			return (NULL);
 		j = 0;
-		while (exec->old_token[flag + j] != 0 && exec->old_token[flag
-				+ j] != PIPE)
+		while (exec->old_token[flag + j] != 0 && exec->old_token[flag + j] != PIPE)
 		{
-			arr_token[i][j] = exec->old_token[flag + j];
+			tokens[i][j] = exec->old_token[flag + j];
 			j++;
 		}
-		arr_token[i][j] = 0;
+		tokens[i][j] = 0;
 		flag += j + 1;
 	}
-	return (arr_token);
+	return (tokens);
 }
 
 void	ft_get_last_cmd(t_exec *exec, int flag, char *path, char **args)

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 02:19:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 12:24:28 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 17:39:45 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	check_dir(char *cmd)
 	dirp = opendir(cmd);
 	if (dirp)
 	{
-		ft_printf("minishell: ", ": Is a directory", cmd, 2);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: Is a directory\n", cmd);
 		g_exit_status = 126;
 		closedir(dirp);
 		return (1);
@@ -61,9 +61,9 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 	if (exec->pipe_fd[(nbr_cmd + 1) % 2][0] == -1 || exec->pipe_fd[nbr_cmd
 		% 2][1] == -1 || !command || check_dir(command[0]) || check_path(exec))
 		return ;
-	if (path == NULL && command[0])
+	if (path == NULL && command[0] != NULL && exec->env != NULL)
 	{
-		ft_printf("minishell: ", ": command not found", command[0], 2);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", command[0]);
 		return ;
 	}
 	handle_signal(PARENT_SIGNAL);

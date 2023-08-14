@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:46:13 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 14:13:41 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 22:29:26 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ static void	set_oldpwd(char *oldpwd, t_env *env)
 
 	pwdsearch = ft_list_search(env, "OLDPWD");
 	if (pwdsearch)
+	{
 		ft_list_clearone(&env, pwdsearch);
+		pwdsearch = NULL;
+	}
+	free(pwdsearch);
 	if (oldpwd)
 	{
 		tmp = ft_strjoin("OLDPWD=", oldpwd);
@@ -34,7 +38,7 @@ static void	set_oldpwd(char *oldpwd, t_env *env)
 static void ft_change_dir(t_env *env, char *dir, char *oldpwd)
 {
 	t_env *pwdsearch;
-	char pwd[4097];
+	char pwd[4096];
 	char *temp;
 
 	if (!chdir(dir))
@@ -43,7 +47,9 @@ static void ft_change_dir(t_env *env, char *dir, char *oldpwd)
 		pwdsearch = ft_list_search(env, "PWD");
 		if (pwdsearch)
 			ft_list_clearone(&env, pwdsearch);
+		free(pwdsearch);
 		temp = ft_strjoin("PWD=", pwd);
+		temp = ft_strdup(temp);
 		ft_list_add_back(&env, ft_new_list(temp));
 		free(temp);
 		set_oldpwd(oldpwd, env);
@@ -62,9 +68,11 @@ static int	ft_dir_home(t_env *env)
 	tmp = ft_list_search(env, "HOME");
 	if (tmp && tmp->value)
 		dir = ft_strdup(tmp->value);
+	free(tmp);
 	beforesearch = ft_list_search(env, "PWD");
 	if (beforesearch && beforesearch->value)
 		oldpwd = ft_strdup(beforesearch->value);
+	free(beforesearch);
 	ft_change_dir(env, dir, oldpwd);
 	return (0);
 }
@@ -72,7 +80,7 @@ static int	ft_dir_home(t_env *env)
 static void	ft_error(char *args, char *old_pwd)
 {
 	free(old_pwd);
-	ft_error_msg("minishell: cd: ", STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "minishell: cd: ");
 	g_exit_status = 1;
 	perror(args);
 }
@@ -88,13 +96,32 @@ void	ft_cd(char **str, t_env *env, t_exec *exec)
 
 	if (!ft_strcmp("cd", str[0]) && !str[1])
 	{
+		if (!ft_list_search(env, "HOME"))
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: cd: HOME not set\n");
+			g_exit_status = 1;
+			return ;
+		}
 		ft_dir_home(env);
 		return;
+	}
+	if (!ft_list_search(env, "PWD"))
+	{
+		ft_dprintf(STDERR_FILENO, "env: cd: PWD not set\n");
+		g_exit_status = 1;
+		return ;
 	}
 	beforesearch = ft_list_search(env, "PWD");
 	oldpwd = NULL;
 	if (beforesearch && beforesearch->value)
 		oldpwd = ft_strdup(beforesearch->value);
+    if (!ft_list_search(env, "PATH"))
+	{
+		ft_dprintf(STDERR_FILENO, "env: PATH not set\n");
+		free(oldpwd);
+		g_exit_status = 1;
+		return ;
+	}
 	if (!chdir(str[1]))
 	{
 		getcwd(pwd, 4096);

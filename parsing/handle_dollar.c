@@ -6,20 +6,20 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 12:58:29 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/11 13:15:00 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
 
-static void	ft_free_this(char *tmp, char *tmp2, char *var_name)
+void	ft_free(char *tmp, char *tmp2, char *var_name)
 {
 	free(tmp);
 	free(tmp2);
 	free(var_name);
 }
 
-static char	*ft_var_replace(char *token, int *i, t_env *env)
+char	*ft_var_replace(char *token, int *i, t_env *env)
 {
 	t_env	*env_p;
 	char	*tmp;
@@ -43,7 +43,7 @@ static char	*ft_var_replace(char *token, int *i, t_env *env)
 	free(token);
 	token = ft_strjoin(tmp2, tmp);
 	*i = ft_strlen(tmp2);
-	ft_free_this(tmp, tmp2, var_name);
+	ft_free(tmp, tmp2, var_name);
 	return (token);
 }
 
@@ -82,9 +82,7 @@ static char	*apply_expansion(char *token, t_env *env)
 		if (token[i] == '$' && quote != 1 && token[i + 1] == '?')
 		{
 			token = ft_replace_exitcode(token, &i);
-			if (token[i] == '$' || token[i] == '"' || token[i] == '\'')
-				continue ;
-			else if (token[i] == 0)
+			if (token[i] == 0)
 				break ;
 		}
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
@@ -109,27 +107,12 @@ void	handle_dollar(char **command, int *tokens, t_env *env)
 		if (ft_strchr(command[i], '$'))
 			command[i] = apply_expansion(command[i], env);
 		j = 0;
-		if (tokens)
-		{	
-			while (command[i][j])
-				if (command[i][j] != ' ' || !(command[i][j] >= 9
-						&& command[i][j] <= 13))
-					break ;
-			if (!command[i][j])
-				tokens[i] = EMPTY;
-		}
+		while (command[i][j])
+			if (command[i][j] != ' ' || !(command[i][j] >= 9
+					&& command[i][j] <= 13))
+				break ;
+		if (!command[i][j])
+			tokens[i] = EMPTY;
 		i++;
 	}
 }
-// void	ft_expand(char **command, t_env *env)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (command[i])
-// 	{
-// 		if (ft_strchr(command[i], '$'))
-// 			command[i] = apply_expansion(command[i], env);
-// 		i++;
-// 	}
-// }

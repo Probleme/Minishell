@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 17:16:39 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 22:23:10 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include <sys/errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
+#include <stdarg.h>
+#include <paths.h>
 #define NC "\033[0m"
 #define CYAN "\033[1;36m"
 #define GREEN "\033[1;32m"
@@ -27,7 +28,6 @@
 #define BOLD "\033[1m"
 
 extern int	g_exit_status;
-#define E_OPERATOR_PARSE "minishell: not a valid identifier\n"
 
 typedef enum e_tokens
 {
@@ -60,6 +60,7 @@ typedef struct s_exec
 	int		**tokens;
 	int		*old_token;
 	int		count_cmd;
+	int		is_quote;
 	int		heredoc_fd[16][2];
 	int		pipe_fd[2][2];
 	int		*pid;
@@ -69,13 +70,13 @@ typedef struct s_exec
 //!  Operator parsing
 
 char		*ft_operator_parse(char *command);
-char		**ft_split_cmd(char *cmd);
+char		**ft_split_cmd(char *cmd, int flag);
 int			*set_type_tokens(char **command);
 int			ft_check_input(int *cmd_type);
 void		handle_dollar(char **cmd, int *tokens, t_env *env);
 char		*ft_replace_exitcode(char *token, int *flag);
 char		*ft_replace_wrongname(char *token, int *flag);
-void		delete_quotes(char **command);
+void		delete_quotes(char **command, t_exec *exec);
 
 //? execution
 
@@ -105,12 +106,11 @@ void		ft_export(t_env **env, char **args);
 void		ft_echo(char **array_str);
 
 //** utils
-int	check_empty_line(char *line);
+int    ft_dprintf(int fd, const char *str, ...);
 void		*ft_calloc(size_t count, size_t size);
 int			ft_strlcpy(char *dst, char *src, size_t size);
 char		*ft_strchr(const char *s, int c);
 int			ft_strcmp(char *s1, char *s2);
-void	ft_printf(char *str1, char *str2, char *cmd, int fd);
 void	close_unused_hd(int heredoc_fd[16][2], int cmd_nb);
 int			ft_is_pipe(char c);
 int			ft_is_redirection(char c);
@@ -130,6 +130,7 @@ void		ft_free_arr(void **array);
 char		**ft_env_name(t_env *env);
 void		close_fd(int fd);
 void		close_all_fd(int pipe_fd[2][2], int cmd_nb);
+char	*ft_var_replace(char *token, int *i, t_env *env);
 
 // heredoc and signal
 
@@ -137,6 +138,7 @@ int			check_use_heredoc(int fd, t_exec *exec, int nbr_cmd);
 int			init_heredoc(int arr_herd[16][2], char ***commands, int **tokens, t_exec *exec);
 int			state_stdinput(void);
 void		heredoc_close(int arr_heredoc[16][2]);
+void	ft_expand(char **command, t_env *env);
 void		handle_signal(int sig);
 void		handle_redirection(t_exec *exec, int nbr_command);
 
@@ -148,3 +150,8 @@ void		ft_list_add_back(t_env **env, t_env *new_env);
 int			ft_list_size(t_env *env);
 void		free_env_list(t_env **head);
 void		ft_list_clearone(t_env **root, t_env *todel);
+
+
+
+
+void    ft_get_path_env(t_env **env);

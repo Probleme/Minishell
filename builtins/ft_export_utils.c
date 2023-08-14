@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:40:25 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/06 18:10:09 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 16:02:31 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ void	ft_export_assign(char *str, t_env **env)
 		tmp->value = ft_strdup(ft_strchr(str, '=') + 1);
 	}
 	else
-		ft_list_add_back(env, ft_new_list(str));
+	{
+		var = ft_strdup(str);
+		ft_list_add_back(env, ft_new_list(var));
+		free(var);
+	}
 }
 
 void	ft_export_create_var(char *str, t_env **env)

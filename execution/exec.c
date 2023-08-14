@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 13:00:39 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 21:43:21 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_is_builtin(char **cmds, int *tokens)
 
 static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 {
-	while (exec->cmds[flag])
+	while (exec->cmds[flag] && exec->env)
 	{
 		handle_redirection(exec, flag);
 		path = NULL;

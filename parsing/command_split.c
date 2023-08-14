@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 23:23:19 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/10 13:05:30 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/11 14:12:28 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,26 @@ static int	ft_is_wtspc(char c)
 	return (0);
 }
 
-static int	lenght_next_cmd(char *command)
+static int	lenght_next_cmd(char *command, int flag)
 {
 	int	i;
-	int	state;
+	int	quote;
 
-	state = 0;
+	quote = 0;
 	i = 0;
 	while (command && command[i])
 	{
 		if (command[i] == '\'' || command[i] == '\"')
-			ft_check_state(&state, command[i]);
+			ft_check_state(&quote, command[i]);
 		i++;
-		if (ft_is_wtspc(command[i]) && !state)
+		if (ft_is_wtspc(command[i]) && !quote && flag == -1)
 			break ;
 	}
-	state = 0;
+	quote = 0;
 	return (i);
 }
 
-static int	cmd_count(char *command)
+static int	cmd_count(char *command, int flag)
 {
 	int	i;
 	int	nb;
@@ -52,7 +52,7 @@ static int	cmd_count(char *command)
 		if (command[i] == '\'' || command[i] == '\"')
 			ft_check_state(&state, command[i]);
 		i++;
-		if (ft_is_wtspc(command[i]) && !state)
+		if (ft_is_wtspc(command[i]) && !state && flag == -1)
 		{
 			while (command[i] && ft_is_wtspc(command[i]))
 				i++;
@@ -64,25 +64,25 @@ static int	cmd_count(char *command)
 	return (nb + (state == 0));
 }
 
-char	**ft_split_cmd(char *command)
+char	**ft_split_cmd(char *command, int flag)
 {
 	char	**cmd;
 	int		nb_cmd;
 	int		len_cmd;
 	int		i;
 
-	while (command && *command && ft_is_wtspc(*command))
-		command++;
-	nb_cmd = cmd_count(command);
+	while (command && *command && ft_is_wtspc(*command) && flag == -1)
+			command++;
+	nb_cmd = cmd_count(command, flag);
 	cmd = malloc((nb_cmd + 1) * sizeof(char *));
 	cmd[nb_cmd] = NULL;
 	i = 0;
 	while (i < nb_cmd)
 	{
-		len_cmd = lenght_next_cmd(command);
+		len_cmd = lenght_next_cmd(command, flag);
 		cmd[i] = ft_substr(command, 0, len_cmd);
 		command += len_cmd + (command[len_cmd] != '\0');
-		while (*command && ft_is_wtspc(*command))
+		while (*command && ft_is_wtspc(*command) && flag == -1)
 			command++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:31:57 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:33:15 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 21:37:18 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ t_env	*ft_get_env(char **envp)
 
 	i = 0;
 	env = NULL;
+	if (!envp)
+		return (NULL);
 	while (envp[i])
 	{
 		tmp = ft_new_list(envp[i]);

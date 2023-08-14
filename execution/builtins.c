@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:32:18 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 12:44:51 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/14 21:42:06 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,30 @@ static void	ft_pwd(void)
 
 	g_exit_status = 0;
 	getcwd(buff, 4096);
-	ft_printf(NULL, NULL, buff, STDOUT_FILENO);
+	ft_dprintf(STDOUT_FILENO, "%s\n", buff);
 }
 
 static void	ft_env(t_env *env, char **command)
 {
 	if (ft_sizeof_array(command) > 1)
 	{
-		ft_printf("env: ", "‘%s‘", command[1], STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "env: ‘%s‘: No such file or directory\n", command[1]);
 		g_exit_status = 127;
 		return ;
 	}
 	while (env != NULL)
 	{
+		if (env == NULL)
+		{
+			
+		}
 		if (env->value)
-			ft_printf(env->var_name, env->value, "=", STDOUT_FILENO);
+		{
+			if (env->var_name)
+				ft_dprintf(1, "%s=%s\n", env->var_name, env->value);
+			else
+				ft_dprintf(1, "%s\n", env->value);
+		}
 		env = env->next;
 	}
 	g_exit_status = 0;

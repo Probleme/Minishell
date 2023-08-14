@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 23:12:40 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 11:23:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/11 16:27:20 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	ft_check_hered_max(int *cmd_type)
 	if (nbr_heredoc > 16)
 	{
 		g_exit_status = 2;
-		ft_error_msg("minishell: maximum here-document exceeded\n", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "minishell: maximum here-document exceeded\n");
 		return (0);
 	}
 	return (1);
@@ -63,7 +63,7 @@ static int	ft_check_double_pipe(int *type_cmd)
 	{
 		if (type_cmd[i] == PIPE && type_cmd[i + 1] == PIPE)
 		{
-			ft_error_msg("minishell: syntax error near unexpected token `|'\n", STDERR_FILENO);
+			ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `||'\n");
 			return (0);
 		}
 		i++;
@@ -81,7 +81,7 @@ int	ft_check_input(int *type_cmd)
 	if (!ft_check_operator_file(type_cmd))
 	{
 		g_exit_status = 2;
-		ft_error_msg("minishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "minishell: syntax error near unexpected token `newline'\n");
 		return (0);
 	}
 	if (!ft_check_hered_max(type_cmd))

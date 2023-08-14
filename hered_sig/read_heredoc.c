@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:16:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/10 13:07:50 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/12 14:42:14 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ static void read_from_stdin(char *limit, int fd, t_exec *exec)
     handle_signal(HEREDOC_SIGNAL);
     while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
     {
-        exec->herd_cmd = ft_split_cmd(line);
-        handle_dollar(exec->herd_cmd, NULL, *exec->env);
+        exec->herd_cmd = ft_split_cmd(line, 0);
+		if (exec->is_quote == 0)
+	        ft_expand(exec->herd_cmd, *exec->env);
         i = -1;
         while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
         {
-            ft_printf(NULL, NULL, line, fd);
+			ft_dprintf(fd, "%s", exec->herd_cmd[i]);
+			write(fd, "\n", 1);
             free(exec->herd_cmd[i]);
         }
         free(exec->herd_cmd);
@@ -46,7 +48,7 @@ static void read_from_stdin(char *limit, int fd, t_exec *exec)
 	if (line != NULL)
 		free(line); 
     if (!state_stdinput())
-        ft_error_msg("\n", STDOUT_FILENO);
+		ft_dprintf(STDERR_FILENO, "\n");
     handle_signal(DEFAULT_SIGNAL);
 }
 

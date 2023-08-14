@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 12:00:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 10:00:52 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/11 16:28:00 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	open_out_file(char *name, int mode)
 	fd = open(name, O_WRONLY | O_CREAT | open_mode, 0644);
 	if (fd == -1)
 	{
-		ft_error_msg("minishell: ", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "minishell: ");
 		perror(name);
 	}
 	return (fd);
@@ -38,7 +38,7 @@ static int	open_in_file(char *name, int mode)
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_error_msg("minishell: ", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, "minishell: ");
 		perror(name);
 	}
 	return (fd);

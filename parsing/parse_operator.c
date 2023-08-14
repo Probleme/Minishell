@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 21:27:05 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/10 13:40:11 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/11 10:34:01 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ static char	*ft_parse_after_operator(char *str)
 {
 	char	*new_str;
 	int		i;
-	int		flag;
+	int		quote;
 	int		lenght;
 
 	i = -1;
 	lenght = 0;
-	flag = 0;
+	quote = 0;
 	new_str = ft_strdup(str);
 	free(str);
 	while (new_str[++i])
 	{
-		ft_check_state(&flag, new_str[i]);
-		if (flag == 0 && (ft_is_redirection(new_str[i])
+		ft_check_state(&quote, new_str[i]);
+		if (quote == 0 && (ft_is_redirection(new_str[i])
 				|| ft_is_pipe(new_str[i])))
 		{
 			if (ft_is_redirection(new_str[i]))
