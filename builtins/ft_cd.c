@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:46:13 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 22:29:26 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 18:05:23 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,14 @@ static void ft_change_dir(t_env *env, char *dir, char *oldpwd)
 		pwdsearch = ft_list_search(env, "PWD");
 		if (pwdsearch)
 			ft_list_clearone(&env, pwdsearch);
-		free(pwdsearch);
 		temp = ft_strjoin("PWD=", pwd);
 		temp = ft_strdup(temp);
 		ft_list_add_back(&env, ft_new_list(temp));
 		free(temp);
 		set_oldpwd(oldpwd, env);
 	}
+	free(dir);
+	
 }
 
 static int	ft_dir_home(t_env *env)
@@ -68,11 +69,9 @@ static int	ft_dir_home(t_env *env)
 	tmp = ft_list_search(env, "HOME");
 	if (tmp && tmp->value)
 		dir = ft_strdup(tmp->value);
-	free(tmp);
 	beforesearch = ft_list_search(env, "PWD");
 	if (beforesearch && beforesearch->value)
 		oldpwd = ft_strdup(beforesearch->value);
-	free(beforesearch);
 	ft_change_dir(env, dir, oldpwd);
 	return (0);
 }
@@ -88,9 +87,10 @@ static void	ft_error(char *args, char *old_pwd)
 void	ft_cd(char **str, t_env *env, t_exec *exec)
 {
 	(void)exec;
-	char	pwd[4097];
+	char	pwd[4096];
 	char	*oldpwd;
 	t_env	*pwdsearch;
+	t_env	*pwd_node;
 	t_env	*beforesearch;
 	char	*tmp;
 
@@ -107,24 +107,25 @@ void	ft_cd(char **str, t_env *env, t_exec *exec)
 	}
 	if (!ft_list_search(env, "PWD"))
 	{
-		ft_dprintf(STDERR_FILENO, "env: cd: PWD not set\n");
-		g_exit_status = 1;
-		return ;
+		pwd_node = malloc(sizeof(t_env));
+		pwd_node->var_name = ft_strdup("PWD");
+		pwd_node->value = ft_strdup(getcwd(pwd, 4096));
+		pwd_node->next = NULL;
+		ft_list_add_back(&env, pwd_node);
 	}
 	beforesearch = ft_list_search(env, "PWD");
 	oldpwd = NULL;
 	if (beforesearch && beforesearch->value)
 		oldpwd = ft_strdup(beforesearch->value);
-    if (!ft_list_search(env, "PATH"))
-	{
-		ft_dprintf(STDERR_FILENO, "env: PATH not set\n");
-		free(oldpwd);
-		g_exit_status = 1;
-		return ;
-	}
 	if (!chdir(str[1]))
 	{
-		getcwd(pwd, 4096);
+		if (getcwd(pwd, sizeof(pwd)) == NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			g_exit_status = 1;
+			return ;	
+		}
+		
 		pwdsearch = ft_list_search(env, "PWD");
 		if (pwdsearch)
 			ft_list_clearone(&env, pwdsearch);

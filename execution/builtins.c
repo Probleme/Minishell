@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:32:18 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 21:42:06 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 17:45:53 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,64 @@
 
 static void	ft_pwd(void)
 {
-	char	buff[4097];
+	char	pwd[4096];
 
 	g_exit_status = 0;
-	getcwd(buff, 4096);
-	ft_dprintf(STDOUT_FILENO, "%s\n", buff);
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+		g_exit_status = 1;
+		return ;
+	}
+	ft_dprintf(STDOUT_FILENO, "%s\n", pwd);
 }
 
+char *ft_strstr(const char *haystack, const char *needle)
+{
+    size_t i, j;
+
+    if (*needle == '\0')
+        return (char *)haystack;
+
+    i = 0;
+    while (haystack[i]) {
+        j = 0;
+        while (haystack[i + j] == needle[j])
+		{
+            if (needle[j + 1] == '\0')
+                return (char *)&haystack[i];
+            j++;
+        }
+        i++;
+    }
+    return NULL;
+}
+
+int find_substring(const char *haystack, const char *needle)
+{
+    const char *result = haystack;
+
+    while ((result = ft_strstr(result, needle)) != NULL)
+	{
+        if (result != haystack && *(result - 1) == ':') 
+            return 1;
+        result += strlen(needle);
+    }
+    return 0;
+}
 static void	ft_env(t_env *env, char **command)
 {
-	if (ft_sizeof_array(command) > 1)
+	if (ft_sizeof_array(command) > 1 || !ft_list_search(env, "PATH"))
 	{
-		ft_dprintf(STDERR_FILENO, "env: ‘%s‘: No such file or directory\n", command[1]);
+		if (!ft_list_search(env, "PATH"))
+			ft_dprintf(STDERR_FILENO, "env: No such file or directory\n");
+		else
+			ft_dprintf(STDERR_FILENO, "env: ‘%s‘: No such file or directory\n", command[1]);
 		g_exit_status = 127;
 		return ;
 	}
 	while (env != NULL)
 	{
-		if (env == NULL)
-		{
-			
-		}
 		if (env->value)
 		{
 			if (env->var_name)

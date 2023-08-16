@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:50:42 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/09 13:39:28 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 16:07:16 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*ft_strchr(const char *s, int c)
 	int		cnt;
 	char	*str;
 
+	if (!s)
+		return (NULL);
 	cnt = 0;
 	str = (char *)s;
 	while (c > 255)

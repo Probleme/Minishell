@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:29:46 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/01 15:35:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 12:00:22 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_nbrlen(int nbr)
 	return (len);
 }
 
-static char	*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*res;
 	int		len;

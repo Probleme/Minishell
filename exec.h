@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 22:23:10 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 12:00:34 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ char		**ft_env_name(t_env *env);
 void		close_fd(int fd);
 void		close_all_fd(int pipe_fd[2][2], int cmd_nb);
 char	*ft_var_replace(char *token, int *i, t_env *env);
+char	*ft_itoa(int n);
 
 // heredoc and signal
 
@@ -154,4 +155,4 @@ void		ft_list_clearone(t_env **root, t_env *todel);
 
 
 
-void    ft_get_path_env(t_env **env);
+// void    ft_get_path_env(t_env **env);

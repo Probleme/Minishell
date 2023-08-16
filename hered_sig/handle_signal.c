@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 09:44:32 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/12 13:28:06 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/16 15:11:52 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	default_signal(int signal)
 {
 	(void)signal;
 	g_exit_status = 130;
-	ft_dprintf(STDERR_FILENO, "\n");
+	ft_dprintf(STDOUT_FILENO, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 1);
 	rl_redisplay();
@@ -31,7 +31,7 @@ static void	signal_heredoc(int signal)
 static void	parent_signal(int signal)
 {
 	if (signal == SIGINT)
-		ft_dprintf(STDERR_FILENO, "\n");
+		ft_dprintf(STDOUT_FILENO, "\n");
 	else if (signal == SIGQUIT)
 	{
 		ft_dprintf(STDERR_FILENO, "Quit: 3\n");
@@ -41,6 +41,7 @@ static void	parent_signal(int signal)
 
 void	handle_signal(int sig)
 {
+	rl_catch_signals = 0;
 	if (sig == DEFAULT_SIGNAL)
 	{
 		signal(SIGINT, default_signal);
