@@ -35,7 +35,7 @@ void	ft_error_msg(char *msg, int fd)
 	i = -1;
 	while (msg[++i])
 		write(fd, &msg[i], 1);
-	g_exit_status = 2;
+	g_exit_status = 258;
 }
 
 void	ft_protection(char *to_check, void *optional, t_token **t)
