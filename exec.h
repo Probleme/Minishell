@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 12:00:34 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:32:44 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_exec
 	int		*old_token;
 	int		count_cmd;
 	int		is_quote;
+	int		flag;
+	// int		check;
 	int		heredoc_fd[16][2];
 	int		pipe_fd[2][2];
 	int		*pid;
@@ -90,7 +92,7 @@ char		**ft_get_command(char **cmd_arg, int *tokens, t_env *env,
 void		ft_execute_cmd(char *path, char **args, int nbr_cmd, t_exec *exec);
 void		ft_wait_children(int *cpid, int cmds_cnt);
 void		init_builtin(char **command, int *tokens, t_exec *exec, int flag);
-char		*ft_get_path_of_cmd(char **cmd_arg, int *tokens, t_env *env);
+char		*ft_get_path_of_cmd(char **cmd_arg, int *tokens, t_env *env, t_exec *exec);
 void		ft_get_last_cmd(t_exec *exec, int idx, char *path, char **args);
 
 // TODO builtins

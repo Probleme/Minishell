@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:32:18 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 17:45:53 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:43:10 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int find_substring(const char *haystack, const char *needle)
 }
 static void	ft_env(t_env *env, char **command)
 {
+	// if (!ft_strcmp(command[0], "env") && exec->check == 1)
+	// {
+	// 	ft_dprintf(STDERR_FILENO, "minishell: env: command not found\n");
+	// 	g_exit_status = 127;
+	// 	return ;
+	// }
 	if (ft_sizeof_array(command) > 1 || !ft_list_search(env, "PATH"))
 	{
 		if (!ft_list_search(env, "PATH"))
@@ -124,7 +130,7 @@ void	init_builtin(char **command, int *tokens, t_exec *exec, int flag)
 		begin_builtin(command, tokens, exec, flag);
 		close_fd(exec->pipe_fd[flag % 2][0]);
 		heredoc_close(exec->heredoc_fd);
-		free_env_list(exec->env);
+		// free_env_list(exec->env);
 		free_exec(exec, NULL, NULL);
 		exit(g_exit_status);
 	}

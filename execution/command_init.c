@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 22:59:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 21:43:34 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 11:08:51 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	**ft_split_path(t_env *env)
 	return (path);
 }
 
-static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
+static char	*ft_get_path(char *command, char **splited_path, int flag, int acs, t_exec *exec)
 {
 	char	*path;
 
@@ -97,6 +97,7 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 		return (ft_strdup(command));
 	if (!splited_path)
 	{
+		exec->flag = 1;
 		perror(command);
 		return (NULL);
 	}
@@ -114,7 +115,7 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 	return (path);
 }
 
-char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env)
+char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env, t_exec *exec)
 {
 	char	*path_of_cmd;
 	char	**path;
@@ -128,7 +129,10 @@ char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env)
 		return (NULL);
 	path = ft_split_path(env);
 	acs = access(command[i], X_OK);
-	path_of_cmd = ft_get_path(command[i], path, 0, acs);
+	exec->flag = 0;
+	path_of_cmd = ft_get_path(command[i], path, 0, acs, exec);
+	if (!path_of_cmd)
+		return (NULL);
 	ft_free_arr((void **)path);
 	return (path_of_cmd);
 }

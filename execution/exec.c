@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 21:43:21 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:34:48 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 		else
 		{
 			path = ft_get_path_of_cmd(exec->cmds[flag], exec->tokens[flag],
-					*exec->env);
+					*exec->env, exec);
 			command = ft_get_command(exec->cmds[flag], exec->tokens[flag],
 					*exec->env, path);
 			ft_execute_cmd(path, command, flag, exec);

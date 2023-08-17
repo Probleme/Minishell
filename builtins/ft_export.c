@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:31:26 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 16:55:01 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 17:52:46 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,32 @@ char	**ft_env_name(t_env *env)
 	return (env_name);
 }
 
+void	ft_update_path(t_env **env)
+{
+	char	*path;
+	t_env	*path_node;
+
+	path = ft_strdup(_PATH_STDPATH);
+	path_node = ft_new_list("PATH");
+	if (!path_node)
+	{
+		free(path);
+		return ;
+	}
+	path_node->value = path;
+	path_node->next = NULL;
+	ft_list_add_back(env, path_node);
+}
+
 static void	ft_begin_export(char *command, t_env **env)
 {
+	if (strncmp(&command[0], "PATH", sizeof(command[0])) == 0 && !(ft_strchr(command, '=') && (*(ft_strchr(command, '=') - 1) == '+')))
+	{
+		if (ft_list_search(*env, "PATH"))
+			ft_list_clearone(env, ft_list_search(*env, "PATH"));
+		ft_update_path(env);
+		return;
+	}
 	if (ft_strchr(command, '=') && (*(ft_strchr(command, '=') - 1) == '+'))
 		ft_export_concatenate(command, env, NULL);
 	else if (ft_strchr(command, '='))
@@ -75,7 +99,7 @@ void	ft_export(t_env **env, char **command)
 {
 	int	i;
 	int	flag;
-
+	
 	if (ft_sizeof_array(command) == 1)
 	{
 		ft_print_env_var(*env);
@@ -85,7 +109,7 @@ void	ft_export(t_env **env, char **command)
 	flag = 0;
 	while (command[i])
 	{
-		if (ft_parse_env(command[i], &flag))
+		 if (ft_parse_env(command[i], &flag))
 			ft_begin_export(command[i], env);
 		else
 			flag = 1;

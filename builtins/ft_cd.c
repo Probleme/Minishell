@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:46:13 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 18:05:23 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 10:19:38 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ static void ft_change_dir(t_env *env, char *dir, char *oldpwd)
 		if (pwdsearch)
 			ft_list_clearone(&env, pwdsearch);
 		temp = ft_strjoin("PWD=", pwd);
-		temp = ft_strdup(temp);
 		ft_list_add_back(&env, ft_new_list(temp));
 		free(temp);
 		set_oldpwd(oldpwd, env);
+		free(dir);
 	}
-	free(dir);
-	
 }
 
 static int	ft_dir_home(t_env *env)

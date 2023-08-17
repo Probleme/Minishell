@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:21:45 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 18:22:57 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/17 16:47:41 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_env	*ft_list_search(t_env *env, char *search)
 	t_env	*tmp;
 
 	tmp = env;
+	if (!tmp)
+		return (NULL);
 	while (tmp != NULL)
 	{
 		if (!ft_strcmp(tmp->var_name, search))
@@ -43,8 +45,10 @@ static void	ft_delnode(t_env *env)
 {
 	if (!env)
 		return ;
-	free(env->var_name);
-	free(env->value);
+	if (env->var_name)
+		free(env->var_name);
+	if (env->value)
+		free(env->value);
 	free(env);
 }
 
