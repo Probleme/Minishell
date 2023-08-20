@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:31:59 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:25:37 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ static char	*apply_expansion(char *token, t_env *env, int quote)
 				break ;
 		}
 		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
-				+ 2]))
+					+ 2]))
 			return (token);
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
-				+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
+					+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
 			;
 		else
 			token = apply_expansion_bis(token, &i, quote, env);

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:29:09 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:27:11 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static char	*apply_expansion(char *token, t_env *env)
 				break ;
 		}
 		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
-				+ 2]))
-				return (token);
+					+ 2]))
+			return (token);
 		else if (token[i] == '$' && (token[i + 1] == ' ' || token[i + 1] == '\''
 				|| token[i + 1] == '"' || token[i + 1] == '$' || !token[i + 1]
 				|| token[i + 1] == '/'))

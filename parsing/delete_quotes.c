@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 15:16:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:31:54 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:26:23 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	delete_quotes(char **command, t_exec *exec)
 	{
 		j = 0;
 		if (((command[i] && ft_strchr(command[i], '\'')) || (command[i]
-						&& ft_strchr(command[i], '"'))))
+					&& ft_strchr(command[i], '"'))))
 		{
 			while (command[i][j])
 			{
@@ -79,7 +79,7 @@ void	delete_quotes(char **command, t_exec *exec)
 			}
 		}
 		if (((command[i] && ft_strchr(command[i], '\'')) || (command[i]
-						&& ft_strchr(command[i], '"'))))
+					&& ft_strchr(command[i], '"'))))
 			command[i] = delete_token(command[i]);
 		i++;
 	}

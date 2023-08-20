@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:38:04 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/20 16:27:04 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:24:34 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_unnecessary_spaces(t_token **t)
 	while (temp)
 	{
 		ft_remove_space(temp);
-		break ; // problem here using break to avoid read a freed memory
+		break ;
 		temp = temp->next;
 	}
 	temp = *t;

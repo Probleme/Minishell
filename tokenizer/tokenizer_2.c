@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:13:28 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/20 16:26:58 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:25:14 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	ft_end_of_word(char *command, int i)
 	while (command[i])
 	{
 		if (command[i + 1] == '\0' || command[i + 1] == '|' || command[i
-			+ 1] == '<' || command[i + 1] == '>'
+				+ 1] == '<' || command[i + 1] == '>'
 			|| ft_is_a_white_space(command[i + 1]) == 1 || command[i
-			+ 1] == '\'' || command[i + 1] == '\"')
+				+ 1] == '\'' || command[i + 1] == '\"')
 			break ;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 14:56:52 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 15:02:55 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:27:55 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	handle_out_file(int fd[], t_exec *exec, int nbr_command, int flag)
 {
 	close_fd(fd[1]);
 	fd[1] = open_out_file(exec->cmds[nbr_command][flag],
-		exec->tokens[nbr_command][flag]);
+			exec->tokens[nbr_command][flag]);
 }
 
 void	handle_in_file(int fd[], t_exec *exec, int nbr_command, int flag)
 {
 	close_fd(fd[0]);
 	fd[0] = open_in_file(exec->cmds[nbr_command][flag],
-		exec->tokens[nbr_command][flag]);
+			exec->tokens[nbr_command][flag]);
 }
