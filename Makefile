@@ -6,7 +6,7 @@
 #    By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/16 14:44:39 by hed-dyb           #+#    #+#              #
-#    Updated: 2023/08/20 16:43:39 by ataouaf          ###   ########.fr        #
+#    Updated: 2023/08/20 18:29:01 by ataouaf          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ LIBRARY = minishell.h exec.h
 NAME = minishell
 CC = cc 
 RM = rm -rf
-FLAGS =  -Wall -Werror -Wextra -g #-fsanitize=address,undefined
+FLAGS =  -Wall -Werror -Wextra -g -fsanitize=address,undefined
 
 OBJECTS = ./obj
 EXEC = $(addprefix execution/, check_tokens.c ft_utils.c exec_cmd.c exec.c execute.c utils.c command_init.c builtins.c)

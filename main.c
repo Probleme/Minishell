@@ -6,14 +6,11 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 11:51:40 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/08/20 16:47:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:22:22 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-
-
-int		g_exit_status = 0;
 
 void	free_env_list(t_env **head)
 {
@@ -54,7 +51,10 @@ int	main(int argc, char **argv, char **env)
 	token_lst = NULL;
 	g_exit_status = 0;
 	if (argc != 1)
-		exit(0);
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: too many arguments\n");
+		return (127);
+	}
 	env_lst = ft_get_env(env);
 	handle_signal(DEFAULT_SIGNAL);
 	while ((command = read_command()))

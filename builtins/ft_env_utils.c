@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 13:48:09 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 13:57:30 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:11:36 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,10 @@ t_env	*ft_new_list(char *str)
 	else
 		create_and_assign(str, &tmp);
 	return (tmp);
+}
+
+void	ft_print_err_env(void)
+{
+	ft_dprintf(STDERR_FILENO, "env: No such file or directory\n");
+	g_exit_status = 127;
 }

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:32:18 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 14:02:52 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:04:13 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static int	ft_check_env(t_env *env, char **command, t_env *tmp)
 	}
 	if (!ft_list_search(env, "PATH"))
 	{
-		ft_dprintf(STDERR_FILENO, "env: No such file or directory\n");
-		g_exit_status = 127;
+		ft_print_err_env();
 		return (1);
 	}
 	tmp = env;
@@ -34,8 +33,7 @@ static int	ft_check_env(t_env *env, char **command, t_env *tmp)
 				|| (strncmp(tmp->value, _PATH_STDPATH,
 						sizeof(_PATH_STDPATH))) != 0))
 		{
-			ft_dprintf(STDERR_FILENO, "env: No such file or directory\n");
-			g_exit_status = 127;
+			ft_print_err_env();
 			return (1);
 		}
 		tmp = tmp->next;

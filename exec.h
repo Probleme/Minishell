@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:47:23 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:22:11 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define RED "\033[1;31m"
 # define BOLD "\033[1m"
 
-extern int			g_exit_status;
+int			g_exit_status;
 
 typedef struct s_env
 {
@@ -81,8 +81,6 @@ typedef struct s_exec
 	t_env			**env;
 }					t_exec;
 
-//!  Operator parsing
-
 char				*ft_operator_parse(char *command);
 char				**ft_split_cmd(char *cmd, int flag);
 int					*set_type_tokens(char **command);
@@ -91,8 +89,6 @@ void				handle_dollar(char **cmd, int *tokens, t_env *env);
 char				*ft_replace_exitcode(char *token, int *flag);
 char				*ft_replace_wrongname(char *token, int *flag);
 void				delete_quotes(char **command, t_exec *exec);
-
-//? execution
 
 void				start_exec(t_env **env, char *command);
 t_exec				*init_execution(t_env *env, char *command);
@@ -111,8 +107,6 @@ char				*ft_get_path_of_cmd(char **cmd_arg, int *tokens,
 void				ft_get_last_cmd(t_exec *exec, int idx, char *path,
 						char **args);
 
-// TODO builtins
-
 void				ft_pwd(t_env *env);
 void				set_pwd(t_env *env, char *pwd);
 void				ft_cd(char **str, t_env *env, char *old_pwd);
@@ -126,7 +120,6 @@ void				ft_export_create_var(char *args, t_env **env);
 void				ft_export(t_env **env, char **args);
 void				ft_echo(char **array_str);
 
-//** utils
 int					ft_dprintf(int fd, const char *str, ...);
 void				*ft_calloc(size_t count, size_t size);
 int					ft_strlcpy(char *dst, char *src, size_t size);
@@ -155,15 +148,14 @@ int					ft_check_path(t_exec *exec, t_env *env);
 char				*ft_var_replace(char *token, int *i, t_env *env);
 char				*ft_itoa(int n);
 void				ft_error_cd(char *args, char *old_pwd);
-
-// heredoc and signal
+void				ft_print_err_env(void);
 
 int					check_use_heredoc(int fd, t_exec *exec, int nbr_cmd);
 int					init_heredoc(int arr_herd[16][2], char ***commands,
 						int **tokens, t_exec *exec);
 int					state_stdinput(void);
 void				heredoc_close(int arr_heredoc[16][2]);
-void				ft_expand(char **command, t_env *env);
+void				ft_expand(char **command, t_env *env, t_exec *exec);
 void				handle_signal(int sig);
 void				handle_redirection(t_exec *exec, int nbr_command);
 void				handle_out_file(int fd[], t_exec *exec, int nbr_command,
@@ -171,7 +163,6 @@ void				handle_out_file(int fd[], t_exec *exec, int nbr_command,
 void				handle_in_file(int fd[], t_exec *exec, int nbr_command,
 						int flag);
 
-// env
 t_env				*ft_get_env(char **envp);
 t_env				*ft_new_list(char *str);
 t_env				*ft_list_search(t_env *env, char *searched);

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 02:19:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 14:04:45 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:24:17 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 		close_all_fd(exec->pipe_fd, nbr_cmd);
 		envp = ft_transform_envp(*exec->env);
 		execve(path, command, envp);
-		ft_free_arr((void **)envp);
-		free_exec(exec, path, command);
 		exit(1);
 	}
 }
