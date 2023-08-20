@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:40:25 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 17:40:10 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/19 17:15:33 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	ft_export_assign(char *str, t_env **env)
 	char	*var;
 	t_env	*tmp;
 
-	printf("str = %s\n", str);
 	var = ft_get_var_name(str);
 	tmp = ft_list_search(*env, var);
 	free(var);

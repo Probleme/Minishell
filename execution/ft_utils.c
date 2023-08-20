@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 23:50:42 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 16:07:16 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 14:04:06 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,10 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+void	ft_error_cd(char *args, char *old_pwd)
+{
+	ft_dprintf(STDERR_FILENO, "minishell: cd: ");
+	g_exit_status = 1;
+	perror(args);
+	free(old_pwd);
+}

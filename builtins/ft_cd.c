@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:46:13 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 10:19:38 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:44:20 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,103 +35,85 @@ static void	set_oldpwd(char *oldpwd, t_env *env)
 		ft_list_add_back(&env, ft_new_list("OLDPWD"));
 }
 
-static void ft_change_dir(t_env *env, char *dir, char *oldpwd)
+static void	ft_change_dir(t_env *env, char *dir, char *oldpwd)
 {
-	t_env *pwdsearch;
-	char pwd[4096];
-	char *temp;
-
 	if (!chdir(dir))
 	{
-		getcwd(pwd, 4096);
-		pwdsearch = ft_list_search(env, "PWD");
-		if (pwdsearch)
-			ft_list_clearone(&env, pwdsearch);
-		temp = ft_strjoin("PWD=", pwd);
-		ft_list_add_back(&env, ft_new_list(temp));
-		free(temp);
-		set_oldpwd(oldpwd, env);
-		free(dir);
-	}
-}
-
-static int	ft_dir_home(t_env *env)
-{
-	t_env	*beforesearch;
-	char	*dir;
-	char	*oldpwd;
-	t_env	*tmp;
-
-	dir = NULL;
-	oldpwd = NULL;
-	tmp = ft_list_search(env, "HOME");
-	if (tmp && tmp->value)
-		dir = ft_strdup(tmp->value);
-	beforesearch = ft_list_search(env, "PWD");
-	if (beforesearch && beforesearch->value)
-		oldpwd = ft_strdup(beforesearch->value);
-	ft_change_dir(env, dir, oldpwd);
-	return (0);
-}
-
-static void	ft_error(char *args, char *old_pwd)
-{
-	free(old_pwd);
-	ft_dprintf(STDERR_FILENO, "minishell: cd: ");
-	g_exit_status = 1;
-	perror(args);
-}
-
-void	ft_cd(char **str, t_env *env, t_exec *exec)
-{
-	(void)exec;
-	char	pwd[4096];
-	char	*oldpwd;
-	t_env	*pwdsearch;
-	t_env	*pwd_node;
-	t_env	*beforesearch;
-	char	*tmp;
-
-	if (!ft_strcmp("cd", str[0]) && !str[1])
-	{
-		if (!ft_list_search(env, "HOME"))
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: cd: HOME not set\n");
-			g_exit_status = 1;
-			return ;
-		}
-		ft_dir_home(env);
-		return;
-	}
-	if (!ft_list_search(env, "PWD"))
-	{
-		pwd_node = malloc(sizeof(t_env));
-		pwd_node->var_name = ft_strdup("PWD");
-		pwd_node->value = ft_strdup(getcwd(pwd, 4096));
-		pwd_node->next = NULL;
-		ft_list_add_back(&env, pwd_node);
-	}
-	beforesearch = ft_list_search(env, "PWD");
-	oldpwd = NULL;
-	if (beforesearch && beforesearch->value)
-		oldpwd = ft_strdup(beforesearch->value);
-	if (!chdir(str[1]))
-	{
-		if (getcwd(pwd, sizeof(pwd)) == NULL)
-		{
-			ft_dprintf(STDERR_FILENO, "minishell: cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
-			g_exit_status = 1;
-			return ;	
-		}
-		
-		pwdsearch = ft_list_search(env, "PWD");
-		if (pwdsearch)
-			ft_list_clearone(&env, pwdsearch);
-		tmp = ft_strjoin("PWD=", pwd);
-		ft_list_add_back(&env, ft_new_list(tmp));
-		free(tmp);
+		set_pwd(env, dir);
 		set_oldpwd(oldpwd, env);
 	}
 	else
-		ft_error(str[1], oldpwd);
+		ft_error_cd(dir, oldpwd);
+}
+
+static int	ft_dir_home(t_env *env, char **str, char *dir)
+{
+	t_env	*beforesearch;
+	char	*oldpwd;
+	t_env	*home;
+
+	if (!str[1])
+	{
+		home = ft_list_search(env, "HOME");
+		if (!home || !home->value)
+		{
+			ft_dprintf(STDERR_FILENO, "minishell: cd: HOME not set\n");
+			g_exit_status = 1;
+			return (1);
+		}
+		else
+			dir = ft_strdup(home->value);
+		oldpwd = NULL;
+		beforesearch = ft_list_search(env, "PWD");
+		if (beforesearch && beforesearch->value)
+			oldpwd = ft_strdup(beforesearch->value);
+		ft_change_dir(env, dir, oldpwd);
+		free(dir);
+		return (1);
+	}
+	return (0);
+}
+
+static void	handle_change_to_special_dirs(t_env *env, char **str, char *oldpwd)
+{
+	char	*tmp;
+	char	*new_path;
+
+	new_path = NULL;
+	tmp = ft_strjoin(oldpwd, "/");
+	new_path = ft_strjoin(tmp, str[1]);
+	free(tmp);
+	set_pwd(env, new_path);
+	set_oldpwd(oldpwd, env);
+	free(oldpwd);
+	free(new_path);
+}
+
+void	ft_cd(char **str, t_env *env, char *oldpwd)
+{
+	t_env	*pwdsearch;
+	char	pwd[4096];
+
+	if (ft_dir_home(env, str, NULL))
+		return ;
+	pwdsearch = ft_list_search(env, "PWD");
+	if (pwdsearch && pwdsearch->value)
+		oldpwd = ft_strdup(pwdsearch->value);
+	if (!chdir(str[1]))
+	{
+		if (getcwd(pwd, sizeof(pwd)))
+		{
+			set_pwd(env, pwd);
+			set_oldpwd(oldpwd, env);
+		}
+		else
+		{
+			if (!ft_strcmp(str[1], ".") || !ft_strcmp(str[1], ".."))
+				handle_change_to_special_dirs(env, str, oldpwd);
+			else
+				ft_error_cd(str[1], oldpwd);
+		}
+	}
+	else
+		ft_error_cd(str[1], oldpwd);
 }

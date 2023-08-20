@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:48:55 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 12:31:13 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:43:38 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void	ft_free_arrays(char **env_name, char **env_value)
 	}
 	free(env_name);
 	free(env_value);
+	env_name = NULL;
+	env_value = NULL;
 }
 
 static void	ft_print_env(char **env_name, char **env_value)
@@ -63,7 +65,8 @@ static void	ft_print_env(char **env_name, char **env_value)
 		if (!(env_name[i][0] == '_' && ft_strlen(env_name[i]) == 1))
 		{
 			if (env_value[i])
-				ft_dprintf(1, "declare -x %s=\"%s\"\n", env_name[i], env_value[i]);
+				ft_dprintf(1, "declare -x %s=\"%s\"\n", env_name[i],
+					env_value[i]);
 			else
 				ft_dprintf(1, "declare -x %s\n", env_name[i]);
 		}

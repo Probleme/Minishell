@@ -6,9 +6,12 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 16:32:44 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:45:49 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef EXEC_H
+# define EXEC_H
 
 #include "minishell.h"
 #include <dirent.h>
@@ -21,6 +24,8 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <paths.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #define NC "\033[0m"
 #define CYAN "\033[1;36m"
 #define GREEN "\033[1;32m"
@@ -28,6 +33,14 @@
 #define BOLD "\033[1m"
 
 extern int	g_exit_status;
+
+typedef struct s_env
+{
+	char			*var_name;
+	char			*value;
+	struct s_env	*next;
+	struct s_env	*prev;
+}					t_env;
 
 typedef enum e_tokens
 {
@@ -62,12 +75,12 @@ typedef struct s_exec
 	int		count_cmd;
 	int		is_quote;
 	int		flag;
-	// int		check;
 	int		heredoc_fd[16][2];
 	int		pipe_fd[2][2];
 	int		*pid;
 	t_env	**env;
 }			t_exec;
+
 
 //!  Operator parsing
 
@@ -92,12 +105,14 @@ char		**ft_get_command(char **cmd_arg, int *tokens, t_env *env,
 void		ft_execute_cmd(char *path, char **args, int nbr_cmd, t_exec *exec);
 void		ft_wait_children(int *cpid, int cmds_cnt);
 void		init_builtin(char **command, int *tokens, t_exec *exec, int flag);
-char		*ft_get_path_of_cmd(char **cmd_arg, int *tokens, t_env *env, t_exec *exec);
+char		*ft_get_path_of_cmd(char **cmd_arg, int *tokens, t_env *env);
 void		ft_get_last_cmd(t_exec *exec, int idx, char *path, char **args);
 
 // TODO builtins
 
-void		ft_cd(char **args, t_env *env, t_exec *exec);
+void	ft_pwd(t_env *env);
+void set_pwd(t_env *env, char *pwd);
+void		ft_cd(char **str, t_env *env, char *old_pwd);
 void		ft_unset(t_env **env, char **command);
 void		ft_exit(char **args, t_exec *exec);
 void		ft_print_env_var(t_env *env);
@@ -132,8 +147,10 @@ void		ft_free_arr(void **array);
 char		**ft_env_name(t_env *env);
 void		close_fd(int fd);
 void		close_all_fd(int pipe_fd[2][2], int cmd_nb);
+int ft_check_path(t_exec *exec, t_env *env);
 char	*ft_var_replace(char *token, int *i, t_env *env);
 char	*ft_itoa(int n);
+void	ft_error_cd(char *args, char *old_pwd);
 
 // heredoc and signal
 
@@ -144,6 +161,8 @@ void		heredoc_close(int arr_heredoc[16][2]);
 void	ft_expand(char **command, t_env *env);
 void		handle_signal(int sig);
 void		handle_redirection(t_exec *exec, int nbr_command);
+void	handle_out_file(int fd[], t_exec *exec, int nbr_command, int flag);
+void	handle_in_file(int fd[], t_exec *exec, int nbr_command, int flag);
 
 // env
 t_env		*ft_get_env(char **envp);
@@ -154,7 +173,4 @@ int			ft_list_size(t_env *env);
 void		free_env_list(t_env **head);
 void		ft_list_clearone(t_env **root, t_env *todel);
 
-
-
-
-// void    ft_get_path_env(t_env **env);
+#endif

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 13:15:00 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:31:59 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,11 @@ static char	*apply_expansion_bis(char *token, int *i, int quote, t_env *env)
 	return (token);
 }
 
-static char	*apply_expansion(char *token, t_env *env)
+static char	*apply_expansion(char *token, t_env *env, int quote)
 {
 	int	i;
-	int	quote;
 
 	i = 0;
-	quote = 0;
 	while (i != -1 && token[i])
 	{
 		ft_check_state(&quote, token[i]);
@@ -85,6 +83,9 @@ static char	*apply_expansion(char *token, t_env *env)
 			if (token[i] == 0)
 				break ;
 		}
+		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
+				+ 2]))
+			return (token);
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
 				+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
@@ -105,7 +106,7 @@ void	handle_dollar(char **command, int *tokens, t_env *env)
 	while (command[i])
 	{
 		if (ft_strchr(command[i], '$'))
-			command[i] = apply_expansion(command[i], env);
+			command[i] = apply_expansion(command[i], env, 0);
 		j = 0;
 		while (command[i][j])
 			if (command[i][j] != ' ' || !(command[i][j] >= 9

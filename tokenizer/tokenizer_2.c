@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hed-dyb <hed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 14:13:28 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/07/08 15:07:40 by hed-dyb          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:26:58 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*ft_create_node(char *tok, int type_, t_token *t)
 	if (node == NULL)
 	{
 		ft_free_token(t);
-		exit (1);
+		exit(1);
 	}
 	node->type = type_;
 	node->token = tok;
@@ -57,10 +57,10 @@ int	ft_end_of_word(char *command, int i)
 {
 	while (command[i])
 	{
-		if (command[i + 1] == '\0' || command[i + 1] == '|'
-			|| command[i + 1] == '<' || command[i + 1] == '>'
-			|| ft_is_a_white_space(command[i + 1]) == 1
-			|| command[i + 1] == '\'' || command[i + 1] == '\"')
+		if (command[i + 1] == '\0' || command[i + 1] == '|' || command[i
+			+ 1] == '<' || command[i + 1] == '>'
+			|| ft_is_a_white_space(command[i + 1]) == 1 || command[i
+			+ 1] == '\'' || command[i + 1] == '\"')
 			break ;
 		i++;
 	}
@@ -84,7 +84,7 @@ int	ft_is_a_word(t_token **t, char *command, int i)
 	t_token	*node;
 	char	*tok;
 	int		j;
-	int		start ;
+	int		start;
 
 	start = i;
 	j = 0;
@@ -100,7 +100,7 @@ int	ft_is_a_word(t_token **t, char *command, int i)
 		start++;
 	}
 	tok[j + 1] = '\0';
-	node = ft_create_node(tok, _word,*t);
+	node = ft_create_node(tok, _word, *t);
 	ft_add_back(t, node);
 	return (i);
 }

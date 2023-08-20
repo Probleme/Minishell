@@ -6,74 +6,11 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 22:59:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 11:08:51 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 14:06:22 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
-// int ft_strarr_contains(char **arr, char *str)
-// {
-//     if (arr == NULL || str == NULL)
-//         return 0;
-
-//     for (int i = 0; arr[i] != NULL; i++)
-//     {
-//         if (arr[i] != NULL && ft_strcmp(arr[i], str) == 0)
-//             return 1;
-//     }
-//     return 0;
-// }
-
-// static char **ft_split_path(t_env *env)
-// {
-//     if (env == NULL) 
-//         return NULL;
-
-//     char **path;
-//     int path_size = 0;
-//     t_env *tmp = env;
-
-//     while (tmp && ft_strcmp(tmp->var_name, "PATH"))
-//         tmp = tmp->next;
-    
-//     if (tmp && tmp->value)
-//         path_size = ft_count_words(tmp->value, ':') + 1;
-
-//     path = malloc(sizeof(char *) * (path_size + 2)); // add +1 more to fit _PATH_STDPATH
-      
-//     if (!path)
-//         return NULL;
-
-//     for (int i = 0; i < path_size + 2; i++)
-//         path[i] = NULL; // initialize to NULL
-
-//     int index = 0;
-//     if (tmp && tmp->value)
-//     {
-//         char **split_path = ft_split(tmp->value, ':');
-
-//         if (!split_path)
-//         {
-//             free(path);
-//             return NULL;
-//         }
-
-//         for (int i = 0; split_path[i]; i++)
-//         {
-//             path[index] = ft_strdup(split_path[i]);
-//             index++;
-//         }
-      
-//         ft_free_arr((void **)split_path);
-//     }
-//     if (!ft_strarr_contains(path, _PATH_STDPATH) && _PATH_STDPATH)
-//     {
-//         path[index] = ft_strdup(_PATH_STDPATH);
-//         index++;
-//     }
-//     path[index] = NULL;
-//     return path;
-// }
 
 static char	**ft_split_path(t_env *env)
 {
@@ -81,15 +18,24 @@ static char	**ft_split_path(t_env *env)
 	t_env	*tmp;
 
 	tmp = env;
+	path = NULL;
 	while (tmp && ft_strcmp(tmp->var_name, "PATH"))
 		tmp = tmp->next;
-	path = NULL;
 	if (tmp)
-		path = ft_split(tmp->value, ':');
+	{
+		if (tmp->value && !ft_strcmp(tmp->value, _PATH_STDPATH))
+			path = ft_split(tmp->value, ':');
+		else
+		{
+			path = malloc(sizeof(char *) * 2);
+			path[0] = ft_strdup(tmp->value);
+			path[1] = NULL;
+		}
+	}
 	return (path);
 }
 
-static char	*ft_get_path(char *command, char **splited_path, int flag, int acs, t_exec *exec)
+static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 {
 	char	*path;
 
@@ -97,7 +43,6 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs, 
 		return (ft_strdup(command));
 	if (!splited_path)
 	{
-		exec->flag = 1;
 		perror(command);
 		return (NULL);
 	}
@@ -115,7 +60,7 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs, 
 	return (path);
 }
 
-char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env, t_exec *exec)
+char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env)
 {
 	char	*path_of_cmd;
 	char	**path;
@@ -129,10 +74,7 @@ char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env, t_exec *exec)
 		return (NULL);
 	path = ft_split_path(env);
 	acs = access(command[i], X_OK);
-	exec->flag = 0;
-	path_of_cmd = ft_get_path(command[i], path, 0, acs, exec);
-	if (!path_of_cmd)
-		return (NULL);
+	path_of_cmd = ft_get_path(command[i], path, 0, acs);
 	ft_free_arr((void **)path);
 	return (path_of_cmd);
 }

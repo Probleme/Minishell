@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/12 13:23:57 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:29:09 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static char	*apply_expansion_bis(char *token, int *i, t_env *env)
 {
-	if ((token[*i] == '$' && ft_isalpha(token[*i + 1]))
-		|| (token[*i] == '$' && token[*i + 1] == '_'))
+	if ((token[*i] == '$' && ft_isalpha(token[*i + 1])) || (token[*i] == '$'
+			&& token[*i + 1] == '_'))
 	{
 		token = ft_var_replace(token, i, env);
 		if (token[*i] == '$' || token[*i] == '"' || token[*i] == '\'')
@@ -49,9 +49,12 @@ static char	*apply_expansion(char *token, t_env *env)
 			else if (token[i] == 0)
 				break ;
 		}
-		else if (token[i] == '$' && (token[i + 1] == ' '
-				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
-				+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
+		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
+				+ 2]))
+				return (token);
+		else if (token[i] == '$' && (token[i + 1] == ' ' || token[i + 1] == '\''
+				|| token[i + 1] == '"' || token[i + 1] == '$' || !token[i + 1]
+				|| token[i + 1] == '/'))
 			;
 		else
 			token = apply_expansion_bis(token, &i, env);

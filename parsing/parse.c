@@ -6,12 +6,12 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 10:41:20 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/10 09:48:03 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:32:06 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "../exec.h"
+#include "../minishell.h"
 
 void	ft_free_token(t_token *t)
 {
@@ -23,7 +23,7 @@ void	ft_free_token(t_token *t)
 	{
 		last = t;
 		t = t->next;
-		free (last->token);
+		free(last->token);
 		free(last);
 	}
 }
@@ -43,9 +43,9 @@ void	ft_protection(char *to_check, void *optional, t_token **t)
 	if (to_check == NULL)
 	{
 		if (optional != NULL)
-			free (optional);
+			free(optional);
 		ft_free_token(*t);
-		exit (1);
+		exit(1);
 	}
 }
 
@@ -60,7 +60,6 @@ int	check_empty_line(char *line)
 		return (1);
 	return (0);
 }
-
 
 int	parse_line(char *command, t_token **token_lst)
 {

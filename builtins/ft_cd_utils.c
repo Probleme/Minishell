@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 18:21:45 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/17 16:47:41 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:44:23 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,21 @@ void	ft_list_clearone(t_env **root, t_env *todel)
 		current->next = todel->next;
 		ft_delnode(todel);
 	}
+}
+
+void	set_pwd(t_env *env, char *pwd)
+{
+	t_env	*pwdsearch;
+	char	*temp;
+
+	pwdsearch = ft_list_search(env, "PWD");
+	temp = ft_strjoin("PWD=", pwd);
+	if (pwdsearch)
+	{
+		ft_list_clearone(&env, pwdsearch);
+		pwdsearch = NULL;
+	}
+	free(pwdsearch);
+	ft_list_add_back(&env, ft_new_list(temp));
+	free(temp);
 }

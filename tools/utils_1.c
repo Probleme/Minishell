@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 21:54:06 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/07/30 14:57:57 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:26:51 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ char	*ft_substr(char *s, int start, int len)
 	int		i;
 
 	i = 0;
-	if (s == NULL )
+	if (s == NULL)
 		return (NULL);
-	result = (char *) malloc(len + 1);
+	result = (char *)malloc(len + 1);
 	if (result == NULL)
 		return (NULL);
 	while (s[i + start] != '\0' && i < len)
