@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 23:44:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/08 14:17:22 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:28:30 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,16 @@ char	*ft_strjoin_add_space(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
 	new = ft_calloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 2));
 	if (!new)
 		return (0);
-	while (s1[i])
-	{
+	while (s1[++i])
 		new[i] = s1[i];
-		i++;
-	}
-	new[i] = 32;
+	new[i] = ' ';
 	i++;
 	while (s2[j])
 	{

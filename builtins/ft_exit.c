@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 23:06:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 15:55:28 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:49:30 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,40 @@ static int	ft_is_digit(char *str)
 	return (0);
 }
 
-static void	ft_exit_more(char **command, t_exec *exec)
+static void	ft_exit_more(char **command)
 {
 	if (ft_is_digit(command[1]))
 	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
-		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: too many arguments\n", command[1]);
+		printf("exit\n");
+		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: too many arguments\n",
+			command[1]);
 		g_exit_status = 1;
 	}
 	else
 	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
-		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", command[1]);
-		free_env_list(exec->env);
-		free_exec(exec, NULL, command);
-		exit (2);
+		printf("exit\n");
+		ft_dprintf(STDERR_FILENO, "minishell: exit: \
+			%s: numeric argument required\n", command[1]);
+		exit(2);
 	}
 }
 
-static void	ft_exit_two(char **command, t_exec *exec)
+static void	ft_exit_two(char **command)
 {
-	(void)exec;
 	unsigned char	stat;
 
 	if (ft_is_digit(command[1]))
 	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
-		free_env_list(exec->env);
+		printf("exit\n");
 		stat = ft_atoll(command[1]);
-		free_exec(exec, NULL, command);
-		exit (stat);
+		exit(stat);
 	}
 	else
 	{
-		ft_dprintf(STDOUT_FILENO, "exit\n");
-		ft_dprintf(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", command[1]);
-		free_env_list(exec->env);
-		free_exec(exec, NULL, command);
-		exit (255);
+		printf("exit\n");
+		ft_dprintf(STDERR_FILENO, "minishell: exit: \
+			%s: numeric argument required\n", command[1]);
+		exit(255);
 	}
 }
 
@@ -80,10 +76,10 @@ void	ft_exit(char **command, t_exec *exec)
 		ft_dprintf(STDOUT_FILENO, "exit\n");
 		free_env_list(exec->env);
 		free_exec(exec, NULL, command);
-		exit (g_exit_status);
+		exit(g_exit_status);
 	}
 	else if (ft_sizeof_array(command) == 2)
-		ft_exit_two(command, exec);
+		ft_exit_two(command);
 	else
-		ft_exit_more(command, exec);
+		ft_exit_more(command);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hed-dyb <hed-dyb@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 12:49:42 by hed-dyb           #+#    #+#             */
-/*   Updated: 2023/07/10 18:20:02 by hed-dyb          ###   ########.fr       */
+/*   Updated: 2023/08/20 17:24:58 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	ft_space_or_pipe(t_token **t, char *command, int i)
 		ft_add_back(t, node);
 		while (command[i])
 		{
-			if (command[i + 1] == '\0' || ft_is_a_white_space(command[i + 1])
-				== 0)
+			if (command[i + 1] == '\0' || ft_is_a_white_space(command[i
+						+ 1]) == 0)
 				break ;
 			i++;
 		}

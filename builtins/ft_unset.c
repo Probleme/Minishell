@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:31:48 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 16:09:01 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:43:24 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_isalnum(int c)
 {
-	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z'));
+	return ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
+			&& c <= 'Z'));
 }
 
 static int	ft_parse_env_name(char *command, int *flag)
@@ -25,7 +25,8 @@ static int	ft_parse_env_name(char *command, int *flag)
 	if (!ft_isalpha(command[0]) && command[0] != '_')
 	{
 		*flag = 1;
-		ft_dprintf(STDERR_FILENO, "minishell: unset: `%s': not a valid identifier\n", command);
+		ft_dprintf(STDERR_FILENO,
+			"minishell: unset: `%s': not a valid identifier\n", command);
 		return (0);
 	}
 	i = 0;
@@ -34,7 +35,8 @@ static int	ft_parse_env_name(char *command, int *flag)
 		if (!ft_isalnum(command[i]) && command[i] != '_')
 		{
 			*flag = 1;
-			ft_dprintf(STDERR_FILENO, "minishell: unset: `%s': not a valid identifier\n", command);
+			ft_dprintf(STDERR_FILENO,
+				"minishell: unset: `%s': not a valid identifier\n", command);
 			return (0);
 		}
 		i++;
@@ -54,10 +56,10 @@ void	ft_unset(t_env **env, char **command)
 	{
 		if (ft_parse_env_name(command[i], &exit_code))
 		{
-			g_exit_status = 0;
 			delete = ft_list_search(*env, command[i]);
 			if (delete)
 				ft_list_clearone(env, delete);
+			g_exit_status = 0;
 		}
 		i++;
 	}

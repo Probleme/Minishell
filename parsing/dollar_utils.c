@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:29:46 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 12:00:22 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 11:42:40 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char	*ft_replace_wrongname(char *token, int *flag)
 	tmp = ft_strdup(token);
 	tmp[*flag] = 0;
 	tmp2 = ft_substr(token, (*flag) + 2, 1000);
-	// tmp2 = ft_substr(token, (*flag) + 2, ft_strlen(token), NULL);
 	free(token);
 	token = ft_strjoin(tmp, tmp2);
 	*flag = ft_strlen(tmp);
@@ -102,7 +101,6 @@ char	*ft_replace_exitcode(char *token, int *flag)
 	free(exitcode);
 	free(tmp);
 	tmp = ft_substr(token, (*flag) + 2, 1000);
-	// tmp = ft_substr(token, (*flag) + 2, ft_strlen(token), NULL);
 	free(token);
 	token = ft_strjoin(tmp2, tmp);
 	*flag = ft_strlen(tmp2);

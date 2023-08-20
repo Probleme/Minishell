@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:16:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/12 14:42:14 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 20:43:18 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,31 @@ static void	herd_arr_init(int arr_herd[16][2])
 	}
 }
 
-static void read_from_stdin(char *limit, int fd, t_exec *exec)
+static void	read_from_stdin(char *limit, int fd, t_exec *exec)
 {
-    char *line;
-    int i;
+	char	*line;
+	int		i;
 
-    handle_signal(HEREDOC_SIGNAL);
-    while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
-    {
-        exec->herd_cmd = ft_split_cmd(line, 0);
-		if (exec->is_quote == 0)
-	        ft_expand(exec->herd_cmd, *exec->env);
-        i = -1;
-        while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
-        {
-			ft_dprintf(fd, "%s", exec->herd_cmd[i]);
-			write(fd, "\n", 1);
-            free(exec->herd_cmd[i]);
-        }
-        free(exec->herd_cmd);
+	handle_signal(HEREDOC_SIGNAL);
+	while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
+	{
+		exec->herd_cmd = ft_split_cmd(line, 0);
+		if (exec->is_quote == 1)
+			ft_expand(exec->herd_cmd, *exec->env, exec);
+		i = -1;
+		while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
+		{
+			ft_dprintf(fd, "%s\n", exec->herd_cmd[i]);
+			free(exec->herd_cmd[i]);
+		}
+		free(exec->herd_cmd);
 		free(line);
-    }
+	}
 	if (line != NULL)
-		free(line); 
-    if (!state_stdinput())
+		free(line);
+	if (!state_stdinput())
 		ft_dprintf(STDERR_FILENO, "\n");
-    handle_signal(DEFAULT_SIGNAL);
+	handle_signal(DEFAULT_SIGNAL);
 }
 
 static int	heredoc_read(char *limit, t_exec *exec)
@@ -66,7 +65,8 @@ static int	heredoc_read(char *limit, t_exec *exec)
 	return (fd[0]);
 }
 
-static void	open_heredoc(int arr_herd[16][2], char ***commands, int **tokens, t_exec *exec)
+static void	open_heredoc(int arr_herd[16][2], char ***commands, int **tokens,
+		t_exec *exec)
 {
 	int	i;
 	int	j;
@@ -94,7 +94,8 @@ static void	open_heredoc(int arr_herd[16][2], char ***commands, int **tokens, t_
 	}
 }
 
-int	init_heredoc(int arr_herd[16][2], char ***commands, int **tokens, t_exec *exec)
+int	init_heredoc(int arr_herd[16][2], char ***commands, int **tokens,
+		t_exec *exec)
 {
 	int	stdin_var;
 

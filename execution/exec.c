@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 21:43:21 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 14:06:51 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 	while (exec->cmds[flag] && exec->env)
 	{
 		handle_redirection(exec, flag);
-		path = NULL;
-		command = NULL;
 		if (ft_is_builtin(exec->cmds[flag], exec->tokens[flag]))
 			init_builtin(exec->cmds[flag], exec->tokens[flag], exec, flag);
 		else
@@ -61,11 +59,6 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 			command = ft_get_command(exec->cmds[flag], exec->tokens[flag],
 					*exec->env, path);
 			ft_execute_cmd(path, command, flag, exec);
-			if (flag < exec->count_cmd - 1)
-			{
-				free(path);
-				ft_free_arr((void **)command);
-			}
 		}
 		close_fd(exec->pipe_fd[++flag % 2][0]);
 		close_fd(exec->pipe_fd[(flag + 1) % 2][1]);

@@ -6,11 +6,37 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 02:19:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/14 17:39:45 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 18:24:17 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../exec.h"
+
+void	ft_pwd(t_env *env)
+{
+	char	pwd[4096];
+	t_env	*pwd_env_node;
+	t_env	*oldpwd_env_node;
+
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
+		pwd_env_node = ft_list_search(env, "PWD");
+		oldpwd_env_node = ft_list_search(env, "OLDPWD");
+		if (pwd_env_node && pwd_env_node->value)
+			ft_dprintf(1, "%s\n", pwd_env_node->value);
+		else if (oldpwd_env_node && oldpwd_env_node->value)
+			ft_dprintf(1, "%s\n", oldpwd_env_node->value);
+		else
+			ft_dprintf(2,
+				"minishell: pwd: error retrieving current directory: getcwd:\
+				 cannot access parent directories: No such file or directory\n");
+		g_exit_status = 0;
+		return ;
+	}
+	else
+		ft_dprintf(1, "%s\n", pwd);
+	g_exit_status = 0;
+}
 
 static int	check_dir(char *cmd)
 {
@@ -36,6 +62,8 @@ static char	**ft_transform_envp(t_env *env)
 	char	**transformed_env;
 
 	transformed_env = malloc(sizeof(char *) * (ft_list_size(env) + 1));
+	if (!transformed_env)
+		return (NULL);
 	i = 0;
 	while (env != NULL)
 	{
@@ -59,11 +87,14 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 	char	**envp;
 
 	if (exec->pipe_fd[(nbr_cmd + 1) % 2][0] == -1 || exec->pipe_fd[nbr_cmd
-		% 2][1] == -1 || !command || check_dir(command[0]) || check_path(exec))
+		% 2][1] == -1 || !command || check_dir(command[0]) || check_path(exec)
+		|| ft_check_path(exec, *exec->env))
 		return ;
-	if (path == NULL && command[0] != NULL && exec->env != NULL)
+	if (path == NULL && command[0] != NULL)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n", command[0]);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",
+			command[0]);
+		g_exit_status = 127;
 		return ;
 	}
 	handle_signal(PARENT_SIGNAL);
@@ -76,9 +107,6 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 		close_all_fd(exec->pipe_fd, nbr_cmd);
 		envp = ft_transform_envp(*exec->env);
 		execve(path, command, envp);
-		free_env_list(exec->env);
-		ft_free_arr((void **)envp);
-		free_exec(exec, path, command);
 		exit(1);
 	}
 }

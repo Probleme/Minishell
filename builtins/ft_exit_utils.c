@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:09:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/12 14:40:46 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/18 09:44:17 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int64_t	ft_atoll(const char *str)
 
 void	free_exec(t_exec *exec, char *path, char **command)
 {
-	free(path);
+	if (path)
+		free(path);
 	ft_free_arr((void **)command);
 	ft_free_arr((void **)exec->cmds);
 	ft_free_arr((void **)exec->tokens);
@@ -75,4 +76,5 @@ void	free_exec(t_exec *exec, char *path, char **command)
 	ft_free_arr((void **)exec->command);
 	free(exec->pid);
 	free(exec);
+	exec = NULL;
 }

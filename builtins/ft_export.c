@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 00:31:26 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 16:55:01 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:43:33 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static int	ft_parse_env(char *command, int *flag)
 	if (!ft_isalpha(command[0]) && command[0] != '_')
 	{
 		*flag = 1;
-		ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n",
-			command);
+		ft_dprintf(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier\n", command);
 		return (0);
 	}
 	i = -1;
@@ -63,8 +63,8 @@ static int	ft_parse_env(char *command, int *flag)
 		if (!ft_isalnum(command[i]) && command[i] != '_')
 		{
 			*flag = 1;
-			ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n",
-				command);
+			ft_dprintf(STDERR_FILENO,
+				"minishell: export: `%s': not a valid identifier\n", command);
 			return (0);
 		}
 	}

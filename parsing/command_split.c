@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 23:23:19 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/11 14:12:28 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 16:27:13 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**ft_split_cmd(char *command, int flag)
 	int		i;
 
 	while (command && *command && ft_is_wtspc(*command) && flag == -1)
-			command++;
+		command++;
 	nb_cmd = cmd_count(command, flag);
 	cmd = malloc((nb_cmd + 1) * sizeof(char *));
 	cmd[nb_cmd] = NULL;

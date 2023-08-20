@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_env_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/25 13:31:57 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/16 17:13:09 by ataouaf          ###   ########.fr       */
+/*   Created: 2023/08/20 13:48:09 by ataouaf           #+#    #+#             */
+/*   Updated: 2023/08/20 18:11:36 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,15 @@ t_env	*ft_new_list(char *str)
 
 	tmp = ft_calloc(sizeof(t_env), 1);
 	if (!tmp)
-		return (0);
+		return (NULL);
 	if (!ft_strchr(str, '='))
 	{
 		tmp->var_name = ft_strdup(str);
 		if (!tmp->var_name)
-			return (0);
+		{
+			free(tmp);
+			return (NULL);
+		}
 		tmp->value = NULL;
 	}
 	else
@@ -88,21 +91,8 @@ t_env	*ft_new_list(char *str)
 	return (tmp);
 }
 
-t_env	*ft_get_env(char **envp)
+void	ft_print_err_env(void)
 {
-	int		i;
-	t_env	*env;
-	t_env	*tmp;
-
-	i = 0;
-	env = NULL;
-	if (!envp)
-		return (NULL);
-	while (envp[i])
-	{
-		tmp = ft_new_list(envp[i]);
-		ft_list_add_back(&env, tmp);
-		i++;
-	}
-	return (env);
+	ft_dprintf(STDERR_FILENO, "env: No such file or directory\n");
+	g_exit_status = 127;
 }

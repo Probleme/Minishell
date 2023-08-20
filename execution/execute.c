@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:04:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/12 14:28:39 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/20 14:04:25 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int	**count_tokens(t_exec *exec, int flag)
 		if (!tokens[i])
 			return (NULL);
 		j = 0;
-		while (exec->old_token[flag + j] != 0 && exec->old_token[flag + j] != PIPE)
+		while (exec->old_token[flag + j] != 0 && exec->old_token[flag
+				+ j] != PIPE)
 		{
 			tokens[i][j] = exec->old_token[flag + j];
 			j++;
