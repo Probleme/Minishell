@@ -57,6 +57,7 @@ typedef enum e_tokens
 	PIPE,
 	EMPTY,
 }					t_tokens;
+
 typedef enum e_sig_state
 {
 	DEFAULT_SIGNAL = 1,
@@ -125,10 +126,12 @@ void				*ft_calloc(size_t count, size_t size);
 int					ft_strlcpy(char *dst, char *src, size_t size);
 char				*ft_strchr(const char *s, int c);
 int					ft_strcmp(char *s1, char *s2);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
 void				close_unused_hd(int heredoc_fd[16][2], int cmd_nb);
 int					ft_is_pipe(char c);
 int					ft_is_redirection(char c);
 int					ft_is_space(char c);
+int					ft_atoi(char *str);
 int					ft_negorpos(int nbr);
 int					count_cmd(char **command, int *tokens);
 int					ft_sizeof_array(char **array_str);

@@ -1,0 +1,16 @@
+total 224
+-rw-r--r--   1 hed-dyb  candidate   2203 Aug 20 22:27 Makefile
+drwxr-xr-x  13 hed-dyb  candidate    442 Aug 20 20:53 builtins
+-rw-r--r--   1 hed-dyb  candidate   5883 Aug 20 22:54 exec.h
+drwxr-xr-x  10 hed-dyb  candidate    340 Aug 20 20:53 execution
+drwxr-xr-x   8 hed-dyb  candidate    272 Aug 20 20:53 hered_sig
+-rw-r--r--   1 hed-dyb  candidate   1929 Aug 20 21:54 main.c
+-rwxr-xr-x   1 hed-dyb  candidate  92192 Aug 20 23:14 minishell
+-rw-r--r--   1 hed-dyb  candidate   2720 Aug 20 20:53 minishell.h
+drwxr-xr-x  20 hed-dyb  candidate    680 Aug 20 22:01 minishell_tester
+drwxr-xr-x  10 hed-dyb  candidate    340 Aug 20 23:14 obj
+drwxr-xr-x   3 hed-dyb  candidate    102 Aug 20 20:53 parcer
+drwxr-xr-x  11 hed-dyb  candidate    374 Aug 20 20:53 parsing
+-rw-r--r--   1 hed-dyb  candidate      0 Aug 20 23:14 test
+drwxr-xr-x   5 hed-dyb  candidate    170 Aug 20 20:53 tokenizer
+drwxr-xr-x   5 hed-dyb  candidate    170 Aug 20 20:53 tools

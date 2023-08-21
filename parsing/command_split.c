@@ -81,7 +81,7 @@ char	**ft_split_cmd(char *command, int flag)
 	{
 		len_cmd = lenght_next_cmd(command, flag);
 		cmd[i] = ft_substr(command, 0, len_cmd);
-		command += len_cmd + (command[len_cmd] != '\0');
+		command += len_cmd;
 		while (*command && ft_is_wtspc(*command) && flag == -1)
 			command++;
 		i++;

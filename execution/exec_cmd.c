@@ -97,6 +97,12 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 		g_exit_status = 127;
 		return ;
 	}
+	// if (exec->count_cmd > 1)
+	// {
+	// 	free(path);
+	// 	path = NULL;
+	// 	ft_free_arr((void **)command);
+	// }
 	handle_signal(PARENT_SIGNAL);
 	exec->pid[nbr_cmd] = fork();
 	if (exec->pid[nbr_cmd] == 0)
