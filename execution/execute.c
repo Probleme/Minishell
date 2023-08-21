@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 12:04:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:12:31 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 23:58:00 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	**count_tokens(t_exec *exec, int flag)
 
 void	ft_get_last_cmd(t_exec *exec, int flag, char *path, char **args)
 {
+	printf("flag = %d\n", flag);
 	if (!path && !ft_is_builtin(exec->cmds[flag], exec->tokens[flag]) && args)
 		g_exit_status = 127;
 	if (exec->pipe_fd[flag % 2][1] == -1 || exec->pipe_fd[(flag + 1) % 2][0] ==

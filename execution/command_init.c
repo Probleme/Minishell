@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 22:59:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:33:28 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 23:53:03 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,38 @@ static char	**ft_split_path(t_env *env)
 	{
 		if (tmp->value && !ft_strcmp(tmp->value, _PATH_STDPATH))
 			path = ft_split(tmp->value, ':');
-		else
-		{
-			path = malloc(sizeof(char *) * 2);
-			path[0] = ft_strdup(tmp->value);
-			path[1] = NULL;
-		}
+		else if (tmp->value)
+			path = ft_split(ft_strdup(tmp->value), ':');
 	}
 	return (path);
 }
 
-static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
+static char *ft_get_path(char *command, char **splited_path, int flag, int acs)
 {
-	char	*path;
+    char *path;
+    char *joined_path;
 
-	if (!acs)
-		return (ft_strdup(command));
-	if (!splited_path)
-	{
-		perror(command);
-		return (NULL);
-	}
-	command = ft_strjoin("/", command);
-	while (splited_path && splited_path[flag] && acs == -1)
-	{
-		path = ft_strjoin(splited_path[flag++], command);
-		acs = access(path, X_OK);
-		if (acs == -1)
-		{
-			free(path);
-			path = NULL;
-		}
-	}
-	free(command);
-	if (acs == -1)
-		return (NULL);
-	return (path);
+    if (!acs)
+        return ft_strdup(command);
+    if (!splited_path)
+    {
+        perror(command);
+        return (NULL);
+    }
+    command = ft_strjoin("/", command);
+    while (splited_path && splited_path[flag] && acs == -1)
+    {
+        joined_path = ft_strjoin(splited_path[flag++], command);
+        acs = access(joined_path, X_OK);
+        if (acs == -1)
+            free(joined_path);
+        else
+            path = joined_path;
+    }
+    free(command);
+    if (acs == -1)
+        return (NULL);
+    return path;
 }
 
 char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env)

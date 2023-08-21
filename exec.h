@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:27:31 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 23:49:01 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define BOLD "\033[1m"
 
 int			g_exit_status;
-
+int			flag_test;
 typedef struct s_env
 {
 	char			*var_name;

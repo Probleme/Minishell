@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:30:20 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/22 00:06:52 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,21 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 			ft_execute_cmd(path, command, flag, exec);
 			if (flag < exec->count_cmd - 1)
 			{
-				// free(path);
-				// ft_free_arr((void **)command);
+				free(path);
+				int i;
+				char ***arr = &command;
+				if (!arr || !*arr)
+					return ;
+
+				i = 0;
+				while ((*arr)[i])
+				{
+					free((*arr)[i]);
+					(*arr)[i] = NULL;
+					i++;
+				}
+				free(*arr);
+				*arr = NULL;
 			}
 		}
 		close_fd(exec->pipe_fd[++flag % 2][0]);
