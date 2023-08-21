@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 18:22:11 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:27:31 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void				ft_free_arr(void **array);
 char				**ft_env_name(t_env *env);
 void				close_fd(int fd);
 void				close_all_fd(int pipe_fd[2][2], int cmd_nb);
-int					ft_check_path(char **command, t_env *env, int nbr_cmd);
+int					ft_check_path(t_env *env);
 char				*ft_var_replace(char *token, int *i, t_env *env);
 char				*ft_itoa(int n);
 void				ft_error_cd(char *args, char *old_pwd);

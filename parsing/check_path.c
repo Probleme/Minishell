@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:20:49 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:27:10 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:26:54 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_path(t_exec *exec)
 	return (0);
 }
 
-int	ft_check_path(char **command, t_env *env, int nbr_cmd)
+int	ft_check_path(t_env *env)
 {
 	t_env	*tmp;
 
@@ -62,9 +62,7 @@ int	ft_check_path(char **command, t_env *env, int nbr_cmd)
 		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (strncmp(tmp->value,
 					_PATH_STDPATH, sizeof(_PATH_STDPATH))) != 0)
 		{
-			ft_free_arr((void **)command);
-			ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",
-				command[nbr_cmd]);
+			ft_dprintf(STDERR_FILENO, "minishell: command not found\n");
 			g_exit_status = 127;
 			return (1);
 		}

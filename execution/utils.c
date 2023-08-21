@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 15:42:37 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/18 09:55:17 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:13:00 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ void	ft_free_arr(void **arr)
 		return ;
 	i = -1;
 	while (arr && arr[++i])
+	{
 		free(arr[i]);
+		arr[i] = NULL;	
+	}
 	free(arr);
 	arr = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 22:59:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 18:09:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:33:28 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 		path = ft_strjoin(splited_path[flag++], command);
 		acs = access(path, X_OK);
 		if (acs == -1)
+		{
 			free(path);
+			path = NULL;
+		}
 	}
 	free(command);
 	if (acs == -1)
