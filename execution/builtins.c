@@ -30,7 +30,7 @@ static int	ft_check_env(t_env *env, char **command, t_env *tmp)
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (tmp->value == NULL
-				|| (strncmp(tmp->value, _PATH_STDPATH,
+				|| (ft_strncmp(tmp->value, _PATH_STDPATH,
 						sizeof(_PATH_STDPATH))) != 0))
 		{
 			ft_print_err_env();

@@ -53,7 +53,6 @@ void				ft_create_tokens(t_token **t, char *command);
 int					ft_special_char(t_token *node);
 void				ft_unnecessary_spaces(t_token **t);
 int					ft_is_wrd_qot(t_token *temp);
-void				ft_error_msg(char *msg, int fd);
 int					ft_is_a_redirection(t_token *node);
 int					ft_check_close(t_token *t);
 int					ft_parsing(t_token *t);

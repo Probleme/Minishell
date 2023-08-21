@@ -47,7 +47,7 @@ int	ft_is_builtin(char **cmds, int *tokens)
 
 static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 {
-	while (exec->cmds[flag] && exec->env)
+	while (exec->cmds[flag])
 	{
 		handle_redirection(exec, flag);
 		if (ft_is_builtin(exec->cmds[flag], exec->tokens[flag]))
@@ -59,6 +59,11 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 			command = ft_get_command(exec->cmds[flag], exec->tokens[flag],
 					*exec->env, path);
 			ft_execute_cmd(path, command, flag, exec);
+			if (flag < exec->count_cmd - 1)
+			{
+				// free(path);
+				// ft_free_arr((void **)command);
+			}
 		}
 		close_fd(exec->pipe_fd[++flag % 2][0]);
 		close_fd(exec->pipe_fd[(flag + 1) % 2][1]);

@@ -84,7 +84,6 @@ int	*set_type_tokens(char **command)
 	}
 	if (ft_check_input(type_cmd))
 		return (type_cmd);
-	g_exit_status = 2;
 	free(type_cmd);
 	return (NULL);
 }

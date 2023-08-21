@@ -62,7 +62,15 @@ int	main(int argc, char **argv, char **env)
 		if (*command && parse_line(command, &token_lst) == 1)
 			start_exec(&env_lst, command);
 		else
-			free(command);
+		{
+			if (!*command)
+				free(command);
+			else
+			{
+				ft_dprintf(STDERR_FILENO, "minishell: syntax error\n");
+				g_exit_status = 258;
+			}
+		}
 	}
 	rl_clear_history();
 	ft_dprintf(STDOUT_FILENO, "exit\n");

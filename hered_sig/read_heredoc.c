@@ -33,7 +33,7 @@ static void	read_from_stdin(char *limit, int fd, t_exec *exec)
 	while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
 	{
 		exec->herd_cmd = ft_split_cmd(line, 0);
-		if (exec->is_quote == 1)
+		if (exec->is_quote == 0)
 			ft_expand(exec->herd_cmd, *exec->env, exec);
 		i = -1;
 		while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))

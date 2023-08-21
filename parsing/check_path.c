@@ -46,11 +46,10 @@ int	check_path(t_exec *exec)
 	return (0);
 }
 
-int	ft_check_path(t_exec *exec, t_env *env)
+int	ft_check_path(char **command, t_env *env, int nbr_cmd)
 {
 	t_env	*tmp;
 
-	(void)exec;
 	tmp = env;
 	while (tmp)
 	{
@@ -63,8 +62,9 @@ int	ft_check_path(t_exec *exec, t_env *env)
 		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (strncmp(tmp->value,
 					_PATH_STDPATH, sizeof(_PATH_STDPATH))) != 0)
 		{
+			ft_free_arr((void **)command);
 			ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",
-				exec->command[0]);
+				command[nbr_cmd]);
 			g_exit_status = 127;
 			return (1);
 		}

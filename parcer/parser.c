@@ -54,43 +54,37 @@ int	ft_check_close(t_token *t)
 	return (0);
 }
 
-int	ft_redir_case(t_token *t)
+int	ft_redir_case(t_token *tok)
 {
-	if (ft_strcmp(t->token, "<<") == 0 && ft_strcmp(t->next->token, "<") == 0)
-		return (ft_error_msg("minishell: syntax error near unexpected token `newline'\n", 2)
-			, 0);
-	if (ft_strcmp(t->token, ">>") == 0 && ft_strcmp(t->next->token, ">") == 0)
-		return (ft_error_msg("minishell: syntax error near unexpected token `>'\n", 2), 0);
-	if (ft_is_a_redirection(t) == 1 && t->next->type == _pipe)
-		return (ft_error_msg("minishell: syntax error near unexpected token `|'\n", 2), 0);
-	if (ft_is_a_redirection(t) == 1 && ft_is_a_redirection(t->next) == 1)
-		return (ft_error_msg("minishell: syntax error near unexpected token `", 2), 
-			ft_error_msg(t->next->token, 2), ft_error_msg("\'\n", 2), 0);
-	if (ft_is_a_redirection(t) == 1 && t->next == NULL)
-		return (ft_error_msg("minishell: syntax error near unexpected token `newline'\n", 2)
-			, 0);
+	if (ft_strcmp(tok->token, "<<") == 0
+		&& ft_strcmp(tok->next->token, "<") == 0)
+		return (0);
+	if (ft_strcmp
+		(tok->token, ">>") == 0 && ft_strcmp(tok->next->token, ">") == 0)
+		return (0);
+	if (ft_is_a_redirection(tok) == 1 && tok->next->type == _pipe)
+		return (0);
+	if (ft_is_a_redirection(tok) == 1 && ft_is_a_redirection(tok->next) == 1)// when test >>>> you net tow messages and 2 as as exit status
+		return (0);
+	if (ft_is_a_redirection(tok) == 1 && tok->next == NULL)
+		return (0);
 	return (1);
 }
 
-int	ft_parsing(t_token *t)
+int	ft_parsing(t_token *tok)
 {
-	if (t && t->type == _pipe) 
-		return (ft_error_msg("minishell: syntax error near unexpected token `|'\n", 2), 0);
-	while (t)
+	if (tok && tok->type == _pipe) 
+		return (0);
+	while (tok)
 	{
-		if ((t->type == _single_quote || t->type == _double_quote)
-			&& ft_check_close(t) == 0)
-			return (ft_error_msg("minishell: syntax error\n", 2), 0);
-		if (t->type == _pipe && t->next == NULL)
-			return (ft_error_msg("minishell: syntax error near unexpected token `|'\n", 2), 0);
-		if (t->next != NULL)
-		{
-			if (ft_redir_case(t) == 0)
+		if ((tok->type == _single_quote || tok->type == _double_quote)// exit status gives 0 i this case
+			&& ft_check_close(tok) == 0)
+			return (0);
+		if (tok->type == _pipe && tok->next == NULL)
+			return (0);
+		if (tok->next != NULL && ft_redir_case(tok) == 0)
 				return (0);
-			if(t->type == _pipe && t->next->type == _pipe && t->next->next == NULL)
-				return (ft_error_msg("minishell: syntax error near unexpected token `|'", 2), 0);
-		}
-		t = t->next;
+		tok = tok->next;
 	}
 	return (1);
 }

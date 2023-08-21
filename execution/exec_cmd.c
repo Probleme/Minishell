@@ -88,7 +88,7 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 
 	if (exec->pipe_fd[(nbr_cmd + 1) % 2][0] == -1 || exec->pipe_fd[nbr_cmd
 		% 2][1] == -1 || !command || check_dir(command[0]) || check_path(exec)
-		|| ft_check_path(exec, *exec->env))
+		|| ft_check_path(command, *exec->env, nbr_cmd))
 		return ;
 	if (path == NULL && command[0] != NULL)
 	{
