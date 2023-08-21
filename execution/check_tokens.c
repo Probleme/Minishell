@@ -27,9 +27,9 @@ static int	ft_check_hered_max(int *cmd_type)
 	}
 	if (nbr_heredoc > 16)
 	{
+		g_exit_status = 258;
 		ft_dprintf(STDERR_FILENO,
 			"minishell: maximum here-document exceeded\n");
-		g_exit_status = 258;
 		return (0);
 	}
 	return (1);
@@ -66,7 +66,6 @@ static int	ft_check_double_pipe(int *type_cmd)
 		{
 			ft_dprintf(STDERR_FILENO,
 				"minishell: syntax error near unexpected token `||'\n");
-			g_exit_status = 258;
 			return (0);
 		}
 		i++;
@@ -83,10 +82,10 @@ int	ft_check_input(int *type_cmd)
 	}
 	if (!ft_check_operator_file(type_cmd))
 	{
+		g_exit_status = 258;
 		ft_dprintf(STDERR_FILENO,
 			"minishell: syntax error near unexpected token `newline'\n");
-		g_exit_status = 258;
-		return (258);
+		return (0);
 	}
 	if (!ft_check_hered_max(type_cmd))
 		return (0);

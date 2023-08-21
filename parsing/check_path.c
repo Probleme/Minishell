@@ -60,7 +60,7 @@ int	ft_check_path(t_exec *exec, t_env *env)
 			g_exit_status = 127;
 			return (1);
 		}
-		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (ft_strncmp(tmp->value,
+		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (strncmp(tmp->value,
 					_PATH_STDPATH, sizeof(_PATH_STDPATH))) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",

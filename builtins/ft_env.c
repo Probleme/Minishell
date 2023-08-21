@@ -19,7 +19,7 @@ void	ft_fill_env(t_env **env, char *str, t_env *tmp)
 
 	tmp = ft_new_list(str);
 	curr = *env;
-	if (ft_strcmp(str, "PWD=") == 0)
+	if (strcmp(str, "PWD=") == 0)
 	{
 		free(tmp->value);
 		getcwd(cwd, sizeof(cwd));
@@ -27,7 +27,7 @@ void	ft_fill_env(t_env **env, char *str, t_env *tmp)
 	}
 	while (curr != NULL)
 	{
-		if (ft_strcmp(curr->var_name, tmp->var_name) == 0)
+		if (strcmp(curr->var_name, tmp->var_name) == 0)
 		{
 			free(curr->value);
 			curr->value = ft_strdup(tmp->value);
@@ -48,7 +48,7 @@ static int	ft_is_env(t_env *env, char *var_name)
 	curr = env;
 	while (curr != NULL)
 	{
-		if (ft_strcmp(curr->var_name, var_name) == 0)
+		if (strcmp(curr->var_name, var_name) == 0)
 			return (1);
 		curr = curr->next;
 	}
@@ -62,7 +62,7 @@ static char	*ft_get_value(t_env *env, char *var_name)
 	curr = env;
 	while (curr != NULL)
 	{
-		if (ft_strcmp(curr->var_name, var_name) == 0)
+		if (strcmp(curr->var_name, var_name) == 0)
 			return (ft_strdup(curr->value));
 		curr = curr->next;
 	}
@@ -79,7 +79,7 @@ static void	ft_add_shlvl(t_env *env)
 	if (ft_is_env(env, "SHLVL"))
 	{
 		shlvl = ft_get_value(env, "SHLVL");
-		shlvl_value = ft_atoi(shlvl) + 1;
+		shlvl_value = atoi(shlvl) + 1;
 		if (shlvl_value < 0)
 			shlvl_value = 0;
 		else if (shlvl_value > 1000)
@@ -104,7 +104,7 @@ t_env	*ft_get_env(char **envp)
 	env = NULL;
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(envp[i], "OLDPWD", 6) != 0)
+		if (strncmp(envp[i], "OLDPWD", 6) != 0)
 			ft_list_add_back(&env, ft_new_list(envp[i]));
 		i++;
 	}
@@ -115,7 +115,7 @@ t_env	*ft_get_env(char **envp)
 		ft_fill_env(&env, "SHLVL=1", NULL);
 	if (ft_is_env(env, "PWD") || !ft_is_env(env, "PWD"))
 		ft_fill_env(&env, "PWD=", NULL);
-	if (ft_is_env(env, "PATH"))
+	if (ft_is_env(env, "PATH") || !ft_is_env(env, "PATH"))
 		ft_fill_env(&env, tmp, NULL);
 	free(path);
 	free(tmp);

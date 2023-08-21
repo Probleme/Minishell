@@ -51,17 +51,18 @@ int	main(int argc, char **argv, char **env)
 	token_lst = NULL;
 	g_exit_status = 0;
 	if (argc != 1)
-		return (ft_dprintf(2, "minishell: too many arguments\n"), 127);
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: too many arguments\n");
+		return (127);
+	}
 	env_lst = ft_get_env(env);
 	handle_signal(DEFAULT_SIGNAL);
-	command = read_command();
-	while (command)
+	while ((command = read_command()))
 	{
 		if (*command && parse_line(command, &token_lst) == 1)
 			start_exec(&env_lst, command);
 		else
 			free(command);
-		command = read_command();
 	}
 	rl_clear_history();
 	ft_dprintf(STDOUT_FILENO, "exit\n");
