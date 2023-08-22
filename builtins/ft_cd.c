@@ -85,7 +85,6 @@ static void	handle_change_to_special_dirs(t_env *env, char **str, char *oldpwd)
 	free(tmp);
 	set_pwd(env, new_path);
 	set_oldpwd(oldpwd, env);
-	free(oldpwd);
 	free(new_path);
 }
 

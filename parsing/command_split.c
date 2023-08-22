@@ -22,19 +22,18 @@ static int	ft_is_wtspc(char c)
 static int	lenght_next_cmd(char *command, int flag)
 {
 	int	i;
-	int	quote;
 
-	quote = 0;
+	flag = 0;
 	i = 0;
 	while (command && command[i])
 	{
 		if (command[i] == '\'' || command[i] == '\"')
-			ft_check_state(&quote, command[i]);
+			ft_check_state(&flag, command[i]);
 		i++;
-		if (ft_is_wtspc(command[i]) && !quote && flag == -1)
+		if (ft_is_wtspc(command[i]) && !flag)
 			break ;
 	}
-	quote = 0;
+	flag = -1;
 	return (i);
 }
 

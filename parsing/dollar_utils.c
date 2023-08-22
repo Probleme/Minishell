@@ -79,8 +79,8 @@ char	*ft_replace_wrongname(char *token, int *flag)
 	char	*tmp2;
 
 	tmp = ft_strdup(token);
-	tmp[*flag] = 0;
-	tmp2 = ft_substr(token, (*flag) + 2, 1000);
+	tmp[*flag] = '\0';
+	tmp2 = ft_substr(token, (*flag) + 1, 1000);
 	free(token);
 	token = ft_strjoin(tmp, tmp2);
 	*flag = ft_strlen(tmp);
@@ -103,7 +103,7 @@ char	*ft_replace_exitcode(char *token, int *flag)
 	tmp = ft_substr(token, (*flag) + 2, 1000);
 	free(token);
 	token = ft_strjoin(tmp2, tmp);
-	*flag = ft_strlen(tmp2);
+	*flag = ft_strlen(tmp2) - 1;
 	free(tmp2);
 	free(tmp);
 	return (token);

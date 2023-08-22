@@ -33,30 +33,31 @@ static char	**ft_split_path(t_env *env)
 
 static char *ft_get_path(char *command, char **splited_path, int flag, int acs)
 {
-    char *path;
-    char *joined_path;
+	char	*path;
+	char	*joined_path;
 
-    if (!acs)
-        return ft_strdup(command);
-    if (!splited_path)
-    {
-        perror(command);
-        return (NULL);
-    }
-    command = ft_strjoin("/", command);
-    while (splited_path && splited_path[flag] && acs == -1)
-    {
-        joined_path = ft_strjoin(splited_path[flag++], command);
-        acs = access(joined_path, X_OK);
-        if (acs == -1)
-            free(joined_path);
-        else
-            path = joined_path;
-    }
-    free(command);
-    if (acs == -1)
-        return (NULL);
-    return path;
+	if (!acs)
+		return (ft_strdup(command));
+	if (!splited_path)
+	{
+		perror(command);
+		g_exit_status = 127;
+		return (NULL);
+	}
+	command = ft_strjoin("/", command);
+	while (splited_path && splited_path[flag] && acs == -1)
+	{
+		joined_path = ft_strjoin(splited_path[flag++], command);
+		acs = access(joined_path, X_OK);
+		if (acs == -1)
+			free(joined_path);
+		else
+			path = joined_path;
+	}
+	free(command);
+	if (acs == -1)
+		return (NULL);
+	return (path);
 }
 
 char	*ft_get_path_of_cmd(char **command, int *tokens, t_env *env)

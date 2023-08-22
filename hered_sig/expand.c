@@ -56,9 +56,6 @@ static char	*apply_expansion(char *token, t_env *env)
 		else
 			token = apply_expansion_bis(token, &i, env);
 		i++;
-		// else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
-		// 			+ 2]))
-		// 	return (token);
 	}
 	return (token);
 }

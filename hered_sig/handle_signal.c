@@ -15,7 +15,7 @@
 static void	default_signal(int signal)
 {
 	(void)signal;
-	g_exit_status = 130;
+	g_exit_status = 1;
 	ft_dprintf(STDOUT_FILENO, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 1);

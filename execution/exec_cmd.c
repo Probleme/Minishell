@@ -27,11 +27,14 @@ void	ft_pwd(t_env *env)
 		else if (oldpwd_env_node && oldpwd_env_node->value)
 			ft_dprintf(1, "%s\n", oldpwd_env_node->value);
 		else
+		{
 			ft_dprintf(2,
 				"minishell: pwd: error retrieving current directory: getcwd:\
 				 cannot access parent directories: No such file or directory\n");
+			g_exit_status = 1;
+			return ;
+		}
 		g_exit_status = 0;
-		return ;
 	}
 	else
 		ft_dprintf(1, "%s\n", pwd);

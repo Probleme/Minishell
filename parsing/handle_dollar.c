@@ -54,16 +54,16 @@ static char	*apply_expansion_bis(char *token, int *i, int quote, t_env *env)
 	{
 		token = ft_var_replace(token, i, env);
 		if (token[*i] == '$' || token[*i] == '"' || token[*i] == '\'')
-			*i -= 1;
-		else if (token[*i] == 0)
+			*i = *i - 1;
+		else if (token[*i] == '\0')
 			*i = -2;
 	}
 	else if (token[*i] == '$' && quote != 1)
 	{
 		token = ft_replace_wrongname(token, i);
 		if (token[*i] == '$' || token[*i] == '"' || token[*i] == '\'')
-			*i -= 1;
-		else if (token[*i] == 0)
+			*i = *i - 1;
+		else if (token[*i] == '\0')
 			*i = -2;
 	}
 	return (token);
@@ -80,7 +80,7 @@ static char	*apply_expansion(char *token, t_env *env, int quote)
 		if (token[i] == '$' && quote != 1 && token[i + 1] == '?')
 		{
 			token = ft_replace_exitcode(token, &i);
-			if (token[i] == 0)
+			if (token[i] == '\0')
 				break ;
 		}
 		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
@@ -89,7 +89,7 @@ static char	*apply_expansion(char *token, t_env *env, int quote)
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
 					+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
-			;// what supose to happen
+			;
 		else
 			token = apply_expansion_bis(token, &i, quote, env);
 		i++;

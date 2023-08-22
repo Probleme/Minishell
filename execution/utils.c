@@ -73,5 +73,7 @@ void	ft_free_arr(void **arr)
 	i = -1;
 	while (arr && arr[++i])
 		free(arr[i]);
+		arr[i] = NULL;
+	}
 	free(arr);
 }

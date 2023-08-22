@@ -128,6 +128,8 @@ void	ft_get_last_cmd(t_exec *exec, int flag, char *path, char **args)
 	if (exec->pipe_fd[flag % 2][1] == -1 || exec->pipe_fd[(flag + 1) % 2][0] ==
 		-1)
 		g_exit_status = 1;
-	ft_free_arr((void **)args);
-	free(path);
+	if (path != NULL)
+		free(path);
+	if (args != NULL && args[0] != NULL)
+		ft_free_arr((void **)args);
 }
