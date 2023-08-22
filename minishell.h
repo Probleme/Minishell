@@ -69,5 +69,6 @@ char				*ft_strdup(char *str);
 int					parse_line(char *command, t_token **token_lst);
 void				ft_protection(char *to_check, void *optional, t_token **t);
 void				ft_free_token(t_token *t);
+int					check_empty_line(char *line);
 
 #endif

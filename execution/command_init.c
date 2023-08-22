@@ -45,6 +45,7 @@ static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 	if (!splited_path)
 	{
 		perror(command);
+		g_exit_status = 127;
 		return (NULL);
 	}
 	command = ft_strjoin("/", command);

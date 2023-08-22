@@ -15,7 +15,7 @@ LIBRARY = minishell.h exec.h
 NAME = minishell
 CC = cc 
 RM = rm -rf
-FLAGS =  -Wall -Werror -Wextra #-g -fsanitize=address,undefined
+FLAGS =  -Wall -Werror -Wextra -g -fsanitize=address,undefined
 
 OBJECTS = ./obj
 EXEC = $(addprefix execution/, check_tokens.c ft_utils.c exec_cmd.c exec.c execute.c utils.c command_init.c builtins.c)

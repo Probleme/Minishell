@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "minishell.h"
 
 void	free_env_list(t_env **head)
 {
@@ -43,7 +44,7 @@ char	*read_command(void)
 
 void	ft_update_status(char *command)
 {
-	if (command[0] == '\0')
+	if (command[0] == '\0' || check_empty_line(command) == 1)
 		g_exit_status = 0;
 	else
 	{
