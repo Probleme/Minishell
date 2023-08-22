@@ -55,31 +55,8 @@ static int	ft_check_operator_file(int *type_cmd)
 	return (1);
 }
 
-// static int	ft_check_double_pipe(int *type_cmd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (type_cmd[i])
-// 	{
-// 		if (type_cmd[i] == PIPE && type_cmd[i + 1] == PIPE)
-// 		{
-// 			ft_dprintf(STDERR_FILENO,
-// 				"minishell: syntax error near unexpected token `||'\n");
-// 			return (0);
-// 		}
-// 		i++;
-// 	}
-// 	return (1);
-// }
-
 int	ft_check_input(int *type_cmd)
 {
-	// if (!ft_check_double_pipe(type_cmd))
-	// {
-	// 	g_exit_status = 258;
-	// 	return (0);
-	// }
 	if (!ft_check_operator_file(type_cmd))
 	{
 		ft_dprintf(STDERR_FILENO,

@@ -61,7 +61,7 @@ static char	*ft_parse_after_operator(char *str)
 				|| ft_is_pipe(new_str[i])))
 		{
 			if (ft_is_redirection(new_str[i]))
-				lenght += 1;
+				lenght = lenght + 1;
 			new_str = ft_check_after_operator(new_str, i, &lenght);
 		}
 	}

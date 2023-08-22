@@ -111,12 +111,10 @@ t_env	*ft_get_env(char **envp)
 	ft_add_shlvl(env);
 	path = ft_strjoin("PATH=", _PATH_STDPATH);
 	tmp = ft_strdup(path);
-	if (!ft_is_env(env, "SHLVL"))
+	if (ft_is_env(env, "SHLVL") == 0)
 		ft_fill_env(&env, "SHLVL=1", NULL);
-	if (ft_is_env(env, "PWD") || !ft_is_env(env, "PWD"))
-		ft_fill_env(&env, "PWD=", NULL);
-	if (ft_is_env(env, "PATH") || !ft_is_env(env, "PATH"))
-		ft_fill_env(&env, tmp, NULL);
+	ft_fill_env(&env, "PWD=", NULL);
+	ft_fill_env(&env, path, NULL);
 	free(path);
 	free(tmp);
 	return (env);

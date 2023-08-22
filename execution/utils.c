@@ -74,7 +74,7 @@ void	ft_free_arr(void **arr)
 	while (arr && arr[++i])
 	{
 		free(arr[i]);
-		arr[i] = NULL;	
+		arr[i] = NULL;
 	}
 	free(arr);
 	arr = NULL;

@@ -30,7 +30,8 @@ static void	read_from_stdin(char *limit, int fd, t_exec *exec)
 	int		i;
 
 	handle_signal(HEREDOC_SIGNAL);
-	while ((line = readline("heredoc > ")) != NULL && ft_strcmp(line, limit))
+	line = readline("heredoc > ");
+	while (line != NULL && ft_strcmp(line, limit))
 	{
 		exec->herd_cmd = ft_split_cmd(line, 0);
 		if (exec->is_quote == 0)
@@ -43,6 +44,7 @@ static void	read_from_stdin(char *limit, int fd, t_exec *exec)
 		}
 		free(exec->herd_cmd);
 		free(line);
+		line = readline("heredoc > ");
 	}
 	if (line != NULL)
 		free(line);

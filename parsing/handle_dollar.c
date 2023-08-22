@@ -89,7 +89,7 @@ static char	*apply_expansion(char *token, t_env *env, int quote)
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
 					+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
-			;// what supose to happen
+			;
 		else
 			token = apply_expansion_bis(token, &i, quote, env);
 		i++;

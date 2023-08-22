@@ -61,8 +61,10 @@ static void	loop_command(t_exec *exec, int flag, char *path, char **command)
 			ft_execute_cmd(path, command, flag, exec);
 			if (flag < exec->count_cmd - 1)
 			{
-				// free(path);
-				// ft_free_arr((void **)command);
+				ft_free_arr((void **)command);
+				command = NULL;
+				free(path);
+				path = NULL;
 			}
 		}
 		close_fd(exec->pipe_fd[++flag % 2][0]);

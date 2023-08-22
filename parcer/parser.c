@@ -64,9 +64,7 @@ int	ft_redir_case(t_token *tok)
 		return (0);
 	if (ft_is_a_redirection(tok) == 1 && tok->next->type == _pipe)
 		return (0);
-	if (ft_is_a_redirection(tok) == 1 && ft_is_a_redirection(tok->next) == 1)// when test >>>> you net tow messages and 2 as as exit status
-		return (0);
-	if (ft_is_a_redirection(tok) == 1 && tok->next == NULL)
+	if (ft_is_a_redirection(tok) == 1 && ft_is_a_redirection(tok->next) == 1)
 		return (0);
 	return (1);
 }
@@ -77,13 +75,18 @@ int	ft_parsing(t_token *tok)
 		return (0);
 	while (tok)
 	{
-		if ((tok->type == _single_quote || tok->type == _double_quote)// exit status gives 0 i this case
+		if ((tok->type == _single_quote || tok->type == _double_quote)
 			&& ft_check_close(tok) == 0)
 			return (0);
 		if (tok->type == _pipe && tok->next == NULL)
 			return (0);
-		if (tok->next != NULL && ft_redir_case(tok) == 0)
+		if (ft_is_a_redirection(tok) == 1 && tok->next == NULL)
+			return (0);
+		if (tok->next != NULL)
+		{
+			if (ft_redir_case(tok) == 0)
 				return (0);
+		}
 		tok = tok->next;
 	}
 	return (1);
