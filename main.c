@@ -91,9 +91,3 @@ int	main(int argc, char **argv, char **env)
 	ft_dprintf(STDOUT_FILENO, "exit\n");
 	return (g_exit_status);
 }
-
-// cat | cat hanler signal 
-// "" | ""  leaks
-// ls  "" | cat | ls leaks
-// cat | cat | cat |  cat | cat |  cat | cat | cat | cat leaks
-// ls | ls | ls | ls  leaks
