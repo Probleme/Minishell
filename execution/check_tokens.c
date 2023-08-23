@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 23:12:40 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 14:01:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 18:23:12 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,23 @@ static int	ft_check_operator_file(int *type_cmd)
 	return (1);
 }
 
+static int	ft_is_end_with_pipe(int *type_cmd)
+{
+	int	i;
+
+	i = 0;
+	while (type_cmd[i])
+		i++;
+	if (type_cmd[i - 1] && type_cmd[i - 1] == PIPE)
+		return (1);
+	return (0);
+}
+
 int	ft_check_input(int *type_cmd)
 {
-	if (!ft_check_operator_file(type_cmd))
+	if (!ft_check_operator_file(type_cmd) || ft_is_end_with_pipe(type_cmd))
 	{
-		ft_dprintf(STDERR_FILENO,
-			"minishell: syntax error near unexpected token `newline'\n");
+		ft_dprintf(STDERR_FILENO, "minishell: syntax error\n");
 		g_exit_status = 258;
 		return (0);
 	}
