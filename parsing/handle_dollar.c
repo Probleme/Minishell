@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 17:25:37 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 20:43:40 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	*apply_expansion(char *token, t_env *env, int quote)
 		else if (token[i] == '$' && quote != 1 && (token[i + 1] == ' '
 				|| token[i + 1] == '\'' || token[i + 1] == '"' || token[i
 					+ 1] == '$' || !token[i + 1] || token[i + 1] == '/'))
-			;
+				;
 		else
 			token = apply_expansion_bis(token, &i, quote, env);
 		i++;
@@ -105,6 +105,8 @@ void	handle_dollar(char **command, int *tokens, t_env *env)
 	i = 0;
 	while (command[i])
 	{
+		// if (tokens[i] == SIGNAL_HEREDOC)
+		// 	i++;
 		if (ft_strchr(command[i], '$'))
 			command[i] = apply_expansion(command[i], env, 0);
 		j = 0;

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 20:21:36 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 18:13:46 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 20:45:22 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,11 @@ static char	*apply_expansion(char *token, t_env *env)
 	return (token);
 }
 
-void	ft_expand(char **command, t_env *env, t_exec *exec)
+void	ft_expand(char **command, t_env *env)
 {
 	int	i;
 
 	i = -1;
-	exec->is_quote = 0;
 	while (command[++i])
 	{
 		if (ft_strchr(command[i], '$'))
