@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 02:19:34 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 23:50:10 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:27:07 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_execute_cmd(char *path, char **command, int nbr_cmd, t_exec *exec)
 		% 2][1] == -1 || !command || check_dir(command[0]) || check_path(exec)
 		|| ft_check_path(*exec->env))
 		return ;
-	if (path == NULL && command[0] != NULL && flag_test == 0)
+	if (path == NULL && command[0] != NULL)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: command not found\n",
 			command[0]);

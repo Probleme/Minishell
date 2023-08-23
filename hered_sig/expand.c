@@ -49,6 +49,9 @@ static char	*apply_expansion(char *token, t_env *env)
 			else if (token[i] == 0)
 				break ;
 		}
+		else if (token[i] == '$' && token[i + 1] == '$' && ft_isalpha(token[i
+					+ 2]))
+			return (token);
 		else if (token[i] == '$' && (token[i + 1] == ' ' || token[i + 1] == '\''
 				|| token[i + 1] == '"' || token[i + 1] == '$' || !token[i + 1]
 				|| token[i + 1] == '/'))

@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 22:59:29 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 23:53:03 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/21 19:33:28 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@ static char	**ft_split_path(t_env *env)
 	{
 		if (tmp->value && !ft_strcmp(tmp->value, _PATH_STDPATH))
 			path = ft_split(tmp->value, ':');
-		else if (tmp->value)
-			path = ft_split(ft_strdup(tmp->value), ':');
+		else
+		{
+			path = malloc(sizeof(char *) * 2);
+			path[0] = ft_strdup(tmp->value);
+			path[1] = NULL;
+		}
 	}
 	return (path);
 }
 
-static char *ft_get_path(char *command, char **splited_path, int flag, int acs)
+static char	*ft_get_path(char *command, char **splited_path, int flag, int acs)
 {
 	char	*path;
 	char	*joined_path;
