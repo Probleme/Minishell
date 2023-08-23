@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:51:58 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:27:31 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:54:35 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int					init_heredoc(int arr_herd[16][2], char ***commands,
 						int **tokens, t_exec *exec);
 int					state_stdinput(void);
 void				heredoc_close(int arr_heredoc[16][2]);
-void				ft_expand(char **command, t_env *env, t_exec *exec);
+void				ft_expand(char **command, t_env *env);
 void				handle_signal(int sig);
 void				handle_redirection(t_exec *exec, int nbr_command);
 void				handle_out_file(int fd[], t_exec *exec, int nbr_command,

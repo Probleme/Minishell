@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:54:23 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/23 18:18:27 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 20:44:58 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	start_exec(t_env **env, char *command)
 {
 	t_exec	*exec;
 	int		i;
+	int		j;
 
 	exec = init_execution(*env, command);
 	if (!exec || !exec->old_token)

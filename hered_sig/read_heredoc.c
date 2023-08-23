@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 21:16:08 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 20:43:18 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 20:29:57 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	read_from_stdin(char *limit, int fd, t_exec *exec)
 	{
 		exec->herd_cmd = ft_split_cmd(line, 0);
 		if (exec->is_quote == 0)
-			ft_expand(exec->herd_cmd, *exec->env, exec);
+			ft_expand(exec->herd_cmd, *exec->env);
 		i = -1;
 		while (exec->herd_cmd[++i] && ft_strcmp(exec->herd_cmd[i], limit))
 		{
