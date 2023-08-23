@@ -100,7 +100,6 @@ void	start_exec(t_env **env, char *command)
 {
 	t_exec	*exec;
 	int		i;
-	int		j;
 
 	exec = init_execution(*env, command);
 	if (!exec || !exec->old_token)

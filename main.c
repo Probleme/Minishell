@@ -48,7 +48,7 @@ void	ft_update_status(char *command)
 		g_exit_status = 0;
 	else
 	{
-		dprintf(2, "minishell: syntax error\n");
+		ft_dprintf(2, "minishell: syntax error\n");
 		g_exit_status = 258;
 	}
 	free (command);

@@ -105,8 +105,10 @@ void	handle_dollar(char **command, int *tokens, t_env *env)
 	i = 0;
 	while (command[i])
 	{
-		// if (tokens[i] == SIGNAL_HEREDOC)
-		// 	i++;
+		if (tokens[i] == SIGNAL_HEREDOC)
+			i = i + 2;
+		if (command[i] == NULL)
+			break ;
 		if (ft_strchr(command[i], '$'))
 			command[i] = apply_expansion(command[i], env, 0);
 		j = 0;
