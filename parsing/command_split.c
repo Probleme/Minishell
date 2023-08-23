@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 23:23:19 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 16:27:13 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/23 17:08:23 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ static int	ft_is_wtspc(char c)
 	return (0);
 }
 
-static int	lenght_next_cmd(char *command, int flag)
+static int	lenght_next_cmd(char *command)
 {
 	int	i;
+	int	flag;
 
 	flag = 0;
 	i = 0;
@@ -33,7 +34,6 @@ static int	lenght_next_cmd(char *command, int flag)
 		if (ft_is_wtspc(command[i]) && !flag)
 			break ;
 	}
-	flag = -1;
 	return (i);
 }
 
@@ -78,7 +78,7 @@ char	**ft_split_cmd(char *command, int flag)
 	i = 0;
 	while (i < nb_cmd)
 	{
-		len_cmd = lenght_next_cmd(command, flag);
+		len_cmd = lenght_next_cmd(command);
 		cmd[i] = ft_substr(command, 0, len_cmd);
 		command += len_cmd + (command[len_cmd] != '\0');
 		while (*command && ft_is_wtspc(*command) && flag == -1)
