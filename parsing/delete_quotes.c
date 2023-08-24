@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 15:16:11 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 17:50:54 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:49:25 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ void	delete_quotes(char **command, t_exec *exec)
 	exec->is_quote = 0;
 	while (command[i])
 	{
+		if (exec->old_token[i] == SIGNAL_HEREDOC)
+			i = i + 2;
+		if (command[i] == NULL)
+			break ;
 		j = 0;
 		if (((command[i] && ft_strchr(command[i], '\'')) || (command[i]
 					&& ft_strchr(command[i], '"'))))
