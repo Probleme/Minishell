@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 12:20:49 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/21 19:26:54 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:05:50 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_check_path(t_env *env)
 			g_exit_status = 127;
 			return (1);
 		}
-		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (strncmp(tmp->value,
+		if (ft_strcmp(tmp->var_name, "PATH") == 0 && (ft_strncmp(tmp->value,
 					_PATH_STDPATH, sizeof(_PATH_STDPATH))) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, "minishell: command not found\n");

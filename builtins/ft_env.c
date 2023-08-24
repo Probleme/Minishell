@@ -6,7 +6,7 @@
 /*   By: ataouaf <ataouaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:31:57 by ataouaf           #+#    #+#             */
-/*   Updated: 2023/08/20 13:57:01 by ataouaf          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:04:05 by ataouaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_fill_env(t_env **env, char *str, t_env *tmp)
 	}
 	while (curr != NULL)
 	{
-		if (strcmp(curr->var_name, tmp->var_name) == 0)
+		if (ft_strcmp(curr->var_name, tmp->var_name) == 0)
 		{
 			free(curr->value);
 			curr->value = ft_strdup(tmp->value);
